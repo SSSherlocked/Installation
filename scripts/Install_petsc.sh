@@ -12,10 +12,18 @@ function settings() {
     f2cblaslapack_url="https://web.cels.anl.gov/projects/petsc/download/externalpackages/"
     f2cblaslapack_name="f2cblaslapack-3.8.0.q2"
 
+    ## hypre
     hypre_url="https://github.com/hypre-space/hypre/archive/refs/tags/v2.31.0"
     hypre_name="hypre-2.31.0"
 
-    mpi_support=1
+    ## mpich
+    mpich_url="https://www.mpich.org/static/downloads/4.2.1/"
+    mpich_name="mpich-4.2.1"
+
+    ## openmpi
+    openmpi_url="https://download.open-mpi.org/release/open-mpi/v5.0/"
+    openmpi_name="openmpi-5.0.3"
+
 
     home_dir=$(pwd)
     package_dir="${home_dir}/packages"
@@ -34,45 +42,14 @@ function check() {
 
 function set_compiler() {
     system_type=$(uname)
-    local mpi_support=$1
+    cc_compiler=mpicc
+    cxx_compiler=mpicxx
+    f_compiler=mpifort
     if [[ ${system_type} == 'Linux' ]]; then
-        if [ ${mpi_support} -eq 1 ]; then
-            cc_compiler=mpicc
-            cxx_compiler=mpicxx
-            f_compiler=mpifort
-            mpi_flag=""
-        else
-            cc_compiler=gcc
-            cxx_compiler=g++
-            f_compiler=gfortran
-            mpi_flag="--with-mpi=0"
-        fi
         arch='arch-linux-c-debug'
     elif [[ ${system_type} == 'Darwin' ]]; then
-        if [ ${mpi_support} -eq 1 ]; then
-            cc_compiler=mpicc
-            cxx_compiler=mpicxx
-            f_compiler=mpifort
-            mpi_flag=""
-        else
-            cc_compiler=clang
-            cxx_compiler=clang++
-            f_compiler=gfortran
-            mpi_flag="--with-mpi=0"
-        fi
         arch='arch-darwin-c-debug'
     elif shopt -s nocasematch && [[ ${system_type} =~ ^cygwin.* ]]; then
-        if [ ${mpi_support} -eq 1 ]; then
-            cc_compiler=mpicc
-            cxx_compiler=mpicxx
-            f_compiler=mpifort
-            mpi_flag=""
-        else
-            cc_compiler=gcc
-            cxx_compiler=g++
-            f_compiler=gfortran
-            mpi_flag="--with-mpi=0"
-        fi
         arch='arch-mswin-c-debug'
     else
         echo -e "\e[31m>> Cannot specify the system type! \e[0m"
@@ -119,8 +96,8 @@ function install() {
                 --with-fc=${f_compiler}     \
                 --download-hypre=${pack_dir}/${hypre_name}.tar.gz               \
                 --download-fblaslapack=${pack_dir}/${fblaslapack_name}.tar.gz   \
-                COPTFLAGS='-O2' CXXOPTFLAGS='-O2' FOPTFLAGS='-O2'               \
-                ${mpi_flag}
+                --download-mpich=${pack_dir}/${mpich_name}.tar.gz               \
+                COPTFLAGS='-O2' CXXOPTFLAGS='-O2' FOPTFLAGS='-O2'
 
     check
     echo -e "\e[32m>> Compiling ... \e[0m"
@@ -146,11 +123,13 @@ function set_env() {
 }
 
 settings
-set_compiler    ${mpi_support}
+set_compiler
 download        ${package_dir}      ${software_version}             ${software_download_url}${software_version}
 download        ${package_dir}      ${fblaslapack_name}             ${fblaslapack_url}
 #download        ${package_dir}      ${f2cblaslapack_name}           ${f2cblaslapack_url}${f2cblaslapack_name}
 download        ${package_dir}      ${hypre_name}                   ${hypre_url}
+download        ${package_dir}      ${mpich_name}                   ${mpich_url}
+#download        ${package_dir}      ${openmpi_name}                 ${openmpi_url}
 unzip           ${package_dir}      ${software_version}             ${tmp_dir}
 install         ${package_dir}      ${tmp_dir}/${software_version}
 #set_env

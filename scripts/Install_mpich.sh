@@ -6,8 +6,8 @@ function settings() {
 #    software_download_url="https://www.mpich.org/static/downloads/3.2/"
 #    software_version="mpich-3.2"
     ## Latest version
-     software_download_url="https://www.mpich.org/static/downloads/4.2.1/"
-     software_version="mpich-4.2.1"
+    software_download_url="https://www.mpich.org/static/downloads/4.2.1/"
+    software_version="mpich-4.2.1"
 
     home_dir=$(pwd)
     package_dir="${home_dir}/packages"
