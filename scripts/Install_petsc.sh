@@ -128,7 +128,7 @@ download        ${package_dir}      ${software_version}             ${software_d
 download        ${package_dir}      ${fblaslapack_name}             ${fblaslapack_url}
 #download        ${package_dir}      ${f2cblaslapack_name}           ${f2cblaslapack_url}${f2cblaslapack_name}
 download        ${package_dir}      ${hypre_name}                   ${hypre_url}
-download        ${package_dir}      ${mpich_name}                   ${mpich_url}
+download        ${package_dir}      ${mpich_name}                   ${mpich_url}${mpich_name}
 #download        ${package_dir}      ${openmpi_name}                 ${openmpi_url}
 unzip           ${package_dir}      ${software_version}             ${tmp_dir}
 install         ${package_dir}      ${tmp_dir}/${software_version}
