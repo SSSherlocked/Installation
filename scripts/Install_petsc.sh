@@ -24,6 +24,8 @@ function settings() {
     openmpi_url="https://download.open-mpi.org/release/open-mpi/v5.0/"
     openmpi_name="openmpi-5.0.3"
 
+    download_mpi_flag=0
+    download_mpi_type="mpich"
 
     home_dir=$(pwd)
     package_dir="${home_dir}/packages"
@@ -42,15 +44,32 @@ function check() {
 
 function set_compiler() {
     system_type=$(uname)
-    cc_compiler=mpicc
-    cxx_compiler=mpicxx
-    f_compiler=mpifort
+    if [[ ${download_mpi_flag} -eq 0 ]]; then
+        cc_compiler=mpicc
+        cxx_compiler=mpicxx
+        f_compiler=mpifort
+        mpi_flag=""
+    else
+        cc_compiler=gcc
+        cxx_compiler=g++
+        f_compiler=gfortran
+        if [[ ${download_mpi_type} == 'mpich' ]]; then
+            mpi_flag="--download-mpich=${pack_dir}/${mpich_name}.tar.gz"
+        elif [[ ${download_mpi_type} == 'openmpi' ]]; then
+            mpi_flag="--download-openmpi=${pack_dir}/${openmpi_name}.tar.gz"
+        else
+            echo -e "\e[31m>> Cannot specify the MPI type! \e[0m"
+            exit
+        fi
+    fi
+
     if [[ ${system_type} == 'Linux' ]]; then
         arch='arch-linux-c-debug'
     elif [[ ${system_type} == 'Darwin' ]]; then
         arch='arch-darwin-c-debug'
     elif shopt -s nocasematch && [[ ${system_type} =~ ^cygwin.* ]]; then
         arch='arch-mswin-c-debug'
+        mpi_flag="--with-mpi=0"
     else
         echo -e "\e[31m>> Cannot specify the system type! \e[0m"
         exit
@@ -94,10 +113,10 @@ function install() {
                 --with-cc=${cc_compiler}    \
                 --with-cxx=${cxx_compiler}  \
                 --with-fc=${f_compiler}     \
-                --download-hypre=${pack_dir}/${hypre_name}.tar.gz               \
                 --download-fblaslapack=${pack_dir}/${fblaslapack_name}.tar.gz   \
-                --download-mpich=${pack_dir}/${mpich_name}.tar.gz               \
-                COPTFLAGS='-O2' CXXOPTFLAGS='-O2' FOPTFLAGS='-O2'
+                --download-hypre=${pack_dir}/${hypre_name}.tar.gz               \
+                COPTFLAGS='-O2' CXXOPTFLAGS='-O2' FOPTFLAGS='-O2'               \
+                ${mpi_flag}
 
     check
     echo -e "\e[32m>> Compiling ... \e[0m"
@@ -129,7 +148,7 @@ download        ${package_dir}      ${fblaslapack_name}             ${fblaslapac
 #download        ${package_dir}      ${f2cblaslapack_name}           ${f2cblaslapack_url}${f2cblaslapack_name}
 download        ${package_dir}      ${hypre_name}                   ${hypre_url}
 download        ${package_dir}      ${mpich_name}                   ${mpich_url}${mpich_name}
-#download        ${package_dir}      ${openmpi_name}                 ${openmpi_url}
+download        ${package_dir}      ${openmpi_name}                 ${openmpi_url}${openmpi_name}
 unzip           ${package_dir}      ${software_version}             ${tmp_dir}
 install         ${package_dir}      ${tmp_dir}/${software_version}
 #set_env
