@@ -10,6 +10,7 @@ function settings() {
     package_dir="${home_dir}/packages"
     install_dir="/opt/${software}"
 
+    ## only available for non-root users
     profile_name="~/.bashrc"
     conda_profile_name="~/.condarc"
 }
@@ -92,5 +93,5 @@ function install_packages() {
 settings
 download    ${package_dir} ${software_version} ${software_download_url}
 install     ${package_dir} ${software_version} ${install_dir}
-set_env
-change_source
+#set_env
+#change_source
