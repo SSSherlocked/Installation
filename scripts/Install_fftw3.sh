@@ -1,12 +1,12 @@
 #！/bin/bash
 
 software="fftw3"
-software_download_url="http://fftw.org/"
+software_download_url="http://fftw.org"
 software_version="fftw-3.3.10"
 
 script_path="$(dirname "$(pwd)")/utils"
 
-source ${script_path}/setting.sh
+source ${script_path}/setting.sh    "" ""
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
                                     ".tar.gz"
