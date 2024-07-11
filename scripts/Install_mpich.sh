@@ -9,7 +9,7 @@ function settings() {
     software_download_url="https://www.mpich.org/static/downloads/4.2.1/"
     software_version="mpich-4.2.1"
 
-    your_home_dir="/home/xxx"
+    your_home_dir=$(cd && pwd)
     home_dir=$(pwd)
     package_dir="${home_dir}/packages"
     tmp_dir="${your_home_dir}/opt/tmp/${software}"
