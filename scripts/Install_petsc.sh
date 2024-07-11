@@ -118,7 +118,6 @@ source ${script_path}/download.sh   ${mpich_url}/${mpich_name} \
 source ${script_path}/download.sh   ${openmpi_url}/${openmpi_name} \
                                     ${package_dir}/${openmpi_name} \
                                     ".tar.gz"
-                                    exit
 source ${script_path}/unzip.sh      ${package_dir}/${software_version} \
                                     ${tmp_dir} \
                                     ".tar.gz"
