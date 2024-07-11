@@ -5,12 +5,14 @@ function settings() {
     software_download_url="https://cmake.org/files/v3.26/"
     software_version="cmake-3.26.6"
 
+    your_home_dir=$(cd && pwd)
     home_dir=$(pwd)
     package_dir="${home_dir}/packages"
-    tmp_dir="/opt/tmp/${software}"
-    install_dir="/opt/${software}/${software_version}"
+    tmp_dir="${your_home_dir}/opt/tmp/${software}"
+    install_dir="${your_home_dir}/opt/${software}/${software_version}"
 
-#    profile_name=/etc/profile
+    # profile_name="${your_home_dir}/.zshrc"
+    profile_name="${your_home_dir}/.bashrc"
 }
 
 function check() {
@@ -73,4 +75,4 @@ settings
 download    ${package_dir} ${software_version} ${software_download_url}
 unzip       ${package_dir} ${software_version} ${tmp_dir}
 install     ${tmp_dir}/${software_version}
-#set_env
+set_env
