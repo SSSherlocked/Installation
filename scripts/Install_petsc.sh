@@ -1,38 +1,33 @@
 #！/bin/bash
 
-function settings() {
-    software="petsc"
-    software_download_url="https://web.cels.anl.gov/projects/petsc/download/release-snapshots/"
-    software_version="petsc-3.21.3"
+software="petsc"
+software_download_url="https://web.cels.anl.gov/projects/petsc/download/release-snapshots"
+software_version="petsc-3.21.3"
 
-    ## To enable blaslapack, using '--download-fblaslapack=' when Fortran compiler is present,
-    fblaslapack_url="https://bitbucket.org/petsc/pkg-fblaslapack/get/v3.4.2-p3"
-    fblaslapack_name="fblaslapack-3.4.2-p3"
-    ## or using '--download-f2cblaslapack' when configuring without a Fortran compiler
-    f2cblaslapack_url="https://web.cels.anl.gov/projects/petsc/download/externalpackages/"
-    f2cblaslapack_name="f2cblaslapack-3.8.0.q2"
+## To enable blaslapack, using '--download-fblaslapack=' when Fortran compiler is present,
+fblaslapack_url="https://bitbucket.org/petsc/pkg-fblaslapack/get/v3.4.2-p3"
+fblaslapack_name="fblaslapack-3.4.2-p3"
+## or using '--download-f2cblaslapack' when configuring without a Fortran compiler
+f2cblaslapack_url="https://web.cels.anl.gov/projects/petsc/download/externalpackages"
+f2cblaslapack_name="f2cblaslapack-3.8.0.q2"
 
-    ## hypre
-    hypre_url="https://github.com/hypre-space/hypre/archive/refs/tags/v2.31.0"
-    hypre_name="hypre-2.31.0"
+## hypre
+hypre_url="https://github.com/hypre-space/hypre/archive/refs/tags/v2.31.0"
+hypre_name="hypre-2.31.0"
 
-    ## mpich
-    mpich_url="https://www.mpich.org/static/downloads/4.2.1/"
-    mpich_name="mpich-4.2.1"
+## mpich
+mpich_url="https://www.mpich.org/static/downloads/4.2.1"
+mpich_name="mpich-4.2.1"
 
-    ## openmpi
-    openmpi_url="https://download.open-mpi.org/release/open-mpi/v5.0/"
-    openmpi_name="openmpi-5.0.3"
+## openmpi
+openmpi_url="https://download.open-mpi.org/release/open-mpi/v5.0"
+openmpi_name="openmpi-5.0.3"
 
-    download_mpi_flag=0
-    download_mpi_type="mpich"
+download_mpi_flag=0
+download_mpi_type="mpich"
 
-    your_home_dir=$(cd && pwd)
-    home_dir=$(pwd)
-    package_dir="${home_dir}/packages"
-    tmp_dir="${your_home_dir}/opt/tmp/${software}"
-    install_dir="${your_home_dir}/opt/${software}/${software_version}"
-}
+script_path="$(dirname "$(pwd)")/utils"
+
 
 function check() {
     if [ $? -ne 0 ]; then
@@ -76,30 +71,6 @@ function set_compiler() {
     echo "PETSC_ARCH: ${arch}"
 }
 
-# Auto download required packages
-function download() {
-    local pack_dir=$1
-    local pack_name=$2
-    local download_url=$3
-    mkdir -p packages
-    if [ ! -f ${pack_dir}/${pack_name}.tar.gz ];then
-        wget -P ${pack_dir} ${download_url}.tar.gz -O ${pack_dir}/${pack_name}.tar.gz
-        check
-        else
-            echo "File ${pack_name}.tar.gz already exist!"
-    fi
-}
-
-# Unzip
-function unzip() {
-    local pack_dir=$1
-    local pack_name=$2
-    local unzip_dir=$3
-    mkdir -p ${unzip_dir}
-    tar -zxvf ${pack_dir}/${pack_name}.tar.gz -C ${unzip_dir}
-    check
-}
-
 # Install
 function install() {
     local pack_dir=$1
@@ -129,13 +100,26 @@ function install() {
     check
 }
 
-settings
+
+source ${script_path}/setting.sh    "" ""
 set_compiler
-download        ${package_dir}      ${software_version}             ${software_download_url}${software_version}
-download        ${package_dir}      ${fblaslapack_name}             ${fblaslapack_url}
-#download        ${package_dir}      ${f2cblaslapack_name}           ${f2cblaslapack_url}${f2cblaslapack_name}
-download        ${package_dir}      ${hypre_name}                   ${hypre_url}
-download        ${package_dir}      ${mpich_name}                   ${mpich_url}${mpich_name}
-download        ${package_dir}      ${openmpi_name}                 ${openmpi_url}${openmpi_name}
-unzip           ${package_dir}      ${software_version}             ${tmp_dir}
+source ${script_path}/download.sh   ${software_download_url}/${software_version} \
+                                    ${package_dir}/${software_version} \
+                                    ".tar.gz"
+source ${script_path}/download.sh   ${fblaslapack_url} \
+                                    ${package_dir}/${fblaslapack_name} \
+                                    ".tar.gz"
+source ${script_path}/download.sh   ${hypre_url}/${hypre_name} \
+                                    ${package_dir}/${hypre_name} \
+                                    ".tar.gz"
+source ${script_path}/download.sh   ${mpich_url}/${mpich_name} \
+                                    ${package_dir}/${mpich_name} \
+                                    ".tar.gz"
+source ${script_path}/download.sh   ${openmpi_url}/${openmpi_name} \
+                                    ${package_dir}/${openmpi_name} \
+                                    ".tar.gz"
+                                    exit
+source ${script_path}/unzip.sh      ${package_dir}/${software_version} \
+                                    ${tmp_dir} \
+                                    ".tar.gz"
 install         ${package_dir}      ${tmp_dir}/${software_version}

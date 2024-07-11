@@ -1,42 +1,13 @@
 #！/bin/bash
 
-function settings() {
-    software="miniforge3"
-    software_download_url="https://mirrors.tuna.tsinghua.edu.cn/github-release/conda-forge/miniforge/LatestRelease/"
-    software_version="Miniforge3-MacOSX-arm64.sh"
-    # software_version="Miniforge3-Linux-x86_64.sh"
+software="miniforge3"
+software_download_url="https://mirrors.tuna.tsinghua.edu.cn/github-release/conda-forge/miniforge/LatestRelease"
+software_version="Miniforge3-MacOSX-arm64"
+# software_version="Miniforge3-Linux-x86_64"
 
-    your_home_dir=$(cd && pwd)
-    home_dir=$(pwd)
-    package_dir="${home_dir}/packages"
-    install_dir="${your_home_dir}/opt/${software}"
+conda_profile_name="${your_home_dir}/.condarc"
 
-    ## only available for non-root users
-    # profile_name="${your_home_dir}/.zshrc"
-    profile_name="${your_home_dir}/.bashrc"
-    conda_profile_name="${your_home_dir}/.condarc"
-}
-
-function check() {
-    if [ $? -ne 0 ]; then
-        echo -e "\e[31m>> Installation failed. \e[0m"
-        exit
-    fi
-}
-
-# Auto download required packages
-function download() {
-    local pack_dir=$1
-    local software_version=$2
-    local download_url=$3
-    mkdir -p packages
-    if [ ! -f ${pack_dir}/${software_version} ];then
-        wget -P ${pack_dir} ${download_url}${software_version}
-        check
-        else
-            echo "File ${software_version} already exist!"
-    fi
-}
+script_path="$(dirname "$(pwd)")/utils"
 
 # Install
 function install() {
@@ -52,14 +23,6 @@ function install() {
 function init() {
     echo -e "\e[32m>> Initializing ... \e[0m"
     ${install_dir}/bin/conda init bash
-    check
-}
-
-# Set environment variables
-function set_env() {
-    echo -e "\e[32m>> Setting environment variables ... \e[0m"
-    echo "export PATH=${install_dir}/bin:\$PATH" >> ${profile_name}
-    source ${profile_name}
     check
 }
 
@@ -92,8 +55,12 @@ function install_packages() {
     check
 }
 
-settings
-download    ${package_dir} ${software_version} ${software_download_url}
-install     ${package_dir} ${software_version} ${install_dir}
-#set_env
-#change_source
+
+source ${script_path}/setting.sh    "" ""
+source ${script_path}/download.sh   ${software_download_url}/${software_version} \
+                                    ${package_dir}/${software_version} \
+                                    ".sh"
+install ${package_dir} ${software_version} ${install_dir}
+source ${script_path}/variable.sh   ${profile_name} \
+                                    ${install_dir}  \
+                                    ${software}
