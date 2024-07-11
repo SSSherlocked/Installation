@@ -4,11 +4,14 @@ function settings() {
     software="hdf5"
     software_download_url="https://hdf-wordpress-1.s3.amazonaws.com/wp-content/uploads/manual/HDF5/HDF5_1_14_3/src/"
     software_version="hdf5-1.14.3"
-
+    your_home_dir=$(cd && pwd)
     home_dir=$(pwd)
     package_dir="${home_dir}/packages"
-    tmp_dir="/opt/tmp/${software}"
-    install_dir="/opt/${software}/${software_version}"
+    tmp_dir="${your_home_dir}/opt/tmp/${software}"
+    install_dir="${your_home_dir}/opt/${software}/${software_version}"
+
+    # profile_name="${your_home_dir}/.zshrc"
+    profile_name="${your_home_dir}/.bashrc"
 }
 
 function check() {
@@ -58,7 +61,17 @@ function install() {
     check
 }
 
+# Set environment variables
+function set_env() {
+    echo -e "\e[32m>> Setting environment variables ... \e[0m"
+    echo "## hdf5 Path" >> ${profile_name}
+    echo "export PATH=\"${install_dir}/bin:\$PATH\"" >> ${profile_name}
+    source ${profile_name}
+    check
+}
+
 settings
 download    ${package_dir}  ${software_version}  ${software_download_url}
 unzip       ${package_dir}  ${software_version}  ${tmp_dir}
 install     ${tmp_dir}/${software_version}
+set_env
