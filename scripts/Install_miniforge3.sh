@@ -6,13 +6,15 @@ function settings() {
     software_version="Miniforge3-MacOSX-arm64.sh"
     # software_version="Miniforge3-Linux-x86_64.sh"
 
+    your_home_dir=$(cd && pwd)
     home_dir=$(pwd)
     package_dir="${home_dir}/packages"
-    install_dir="/opt/${software}"
+    install_dir="${your_home_dir}/opt/${software}"
 
     ## only available for non-root users
-    profile_name="~/.bashrc"
-    conda_profile_name="~/.condarc"
+    # profile_name="${your_home_dir}/.zshrc"
+    profile_name="${your_home_dir}/.bashrc"
+    conda_profile_name="${your_home_dir}/.condarc"
 }
 
 function check() {

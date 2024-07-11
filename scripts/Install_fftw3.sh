@@ -5,10 +5,11 @@ function settings() {
     fftw_url="http://fftw.org/"
     software_version="fftw-3.3.10"
 
+    your_home_dir=$(cd && pwd)
     home_dir=$(pwd)
     package_dir="${home_dir}/packages"
-    tmp_dir="/opt/tmp/${software}"
-    install_dir="/opt/${software}/${software_version}"
+    tmp_dir="${your_home_dir}/opt/tmp/${software}"
+    install_dir="${your_home_dir}/opt/${software}/${software_version}"
 }
 
 function check() {

@@ -10,10 +10,11 @@ function settings() {
     MPI_LIB_DIR="${MPI_DIR}/lib"
     MPI_LIB="mpi mpi_cxx mpifort"
 
+    your_home_dir=$(cd && pwd)
     home_dir=$(pwd)
     package_dir="${home_dir}/packages"
-    tmp_dir="/opt/tmp/${software}"
-    install_dir="/opt/${software}/${software_version}"
+    tmp_dir="${your_home_dir}/opt/tmp/${software}"
+    install_dir="${your_home_dir}/opt/${software}/${software_version}"
 }
 
 function check() {
