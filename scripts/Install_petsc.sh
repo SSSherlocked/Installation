@@ -27,12 +27,11 @@ function settings() {
     download_mpi_flag=0
     download_mpi_type="mpich"
 
+    your_home_dir=$(cd && pwd)
     home_dir=$(pwd)
     package_dir="${home_dir}/packages"
-    tmp_dir="/opt/tmp/${software}"
-    install_dir="/opt/${software}/${software_version}"
-
-#    profile_name=/etc/profile
+    tmp_dir="${your_home_dir}/opt/tmp/${software}"
+    install_dir="${your_home_dir}/opt/${software}/${software_version}"
 }
 
 function check() {
@@ -130,17 +129,6 @@ function install() {
     check
 }
 
-# Set environment variables
-function set_env() {
-    echo -e "\e[32m>> Setting environment variables ... \e[0m"
-    echo "export PETSC_DIR=${install_dir}" >> ${profile_name}
-    echo "export PETSC_ARCH=${arch}" >> ${profile_name}
-    echo "export LD_LIBRARY_PATH=${install_dir}/lib:\$LD_LIBRARY_PATH" >> ${profile_name}
-    echo "export LIBRARY_PATH=${install_dir}/lib:\$LIBRARY_PATH" >> ${profile_name}
-    echo "export CPATH=${install_dir}/include:\$CPATH" >> ${profile_name}
-    source ${profile_name}
-}
-
 settings
 set_compiler
 download        ${package_dir}      ${software_version}             ${software_download_url}${software_version}
@@ -151,4 +139,3 @@ download        ${package_dir}      ${mpich_name}                   ${mpich_url}
 download        ${package_dir}      ${openmpi_name}                 ${openmpi_url}${openmpi_name}
 unzip           ${package_dir}      ${software_version}             ${tmp_dir}
 install         ${package_dir}      ${tmp_dir}/${software_version}
-#set_env
