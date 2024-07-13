@@ -5,9 +5,8 @@ software_download_url="https://mirrors.tuna.tsinghua.edu.cn/github-release/conda
 software_version="Miniforge3-MacOSX-arm64"
 # software_version="Miniforge3-Linux-x86_64"
 
-conda_profile_name="${your_home_dir}/.condarc"
-
 script_path="$(dirname "$(pwd)")/utils"
+conda_profile_name="${your_home_dir}/.condarc"
 
 # Install
 function install() {

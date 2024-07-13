@@ -12,10 +12,9 @@ function install() {
     local unzip_dir=$1
     local install_dir=$2
     local install_flag=$3
-    cd ${unzip_dir}
-    check
+    cd "${unzip_dir}" || ! echo -e "\e[31m>> Fail to enter ${unzip_dir}!\e[0m" || exit
     echo ">> Configuring ..."
-    ./configure --prefix=${install_dir} ${install_flag}
+    ./configure --prefix="${install_dir}" ${install_flag}
     check
     echo ">> Compiling ..."
     make

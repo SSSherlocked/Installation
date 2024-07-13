@@ -12,8 +12,8 @@ function unzip() {
     local pack_name=$1
     local unzip_dir=$2
     local type=$3
-    mkdir -p ${unzip_dir}
-    tar -zxvf ${pack_name}${type} -C ${unzip_dir}
+    mkdir -p "${unzip_dir}"
+    tar -zxvf "${pack_name}${type}" -C "${unzip_dir}"
     check
 }
 
