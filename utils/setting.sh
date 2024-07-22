@@ -7,6 +7,7 @@ function setting() {
     local home_dir
     if [ ${user} == 'root' ]; then
         your_home_dir=""
+        profile_name=""
     else
         your_home_dir=$(cd && pwd)
         if [ ${system} == 'macos' ]; then

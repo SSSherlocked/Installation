@@ -11,7 +11,7 @@ MPI_LIB="mpi mpi_cxx mpifort"
 
 script_path="$(dirname "$(pwd)")/utils"
 
-source ${script_path}/setting.sh    "" ""
+source ${script_path}/setting.sh    "$1" "$2"
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
                                     ".tar.gz"

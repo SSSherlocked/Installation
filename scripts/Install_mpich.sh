@@ -5,8 +5,9 @@ software_download_url="https://www.mpich.org/static/downloads/4.2.1"
 software_version="mpich-4.2.1"
 
 script_path="$(dirname "$(pwd)")/utils"
+user=$1
 
-source ${script_path}/setting.sh    "" ""
+source ${script_path}/setting.sh    ${user} "$2"
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
                                     ".tar.gz"
@@ -19,4 +20,5 @@ source ${script_path}/install.sh    ${tmp_dir}/${software_version} \
                                      FCFLAGS=-fallow-argument-mismatch"
 source ${script_path}/variable.sh   ${profile_name} \
                                     ${install_dir}  \
-                                    ${software}
+                                    ${software}     \
+                                    ${user}
