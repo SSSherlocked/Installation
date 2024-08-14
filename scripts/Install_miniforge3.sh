@@ -7,6 +7,7 @@ software_version="Miniforge3-Linux-x86_64"
 
 script_path="$(dirname "$(pwd)")/utils"
 conda_profile_name="${your_home_dir}/.condarc"
+user=$1
 
 # Install
 function install() {
@@ -51,11 +52,12 @@ function install_packages() {
 }
 
 
-source ${script_path}/setting.sh    "" ""
+source ${script_path}/setting.sh    ${user} "$2"
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
                                     ".sh"
 install ${package_dir} ${software_version} ${install_dir}
 source ${script_path}/variable.sh   ${profile_name} \
                                     ${install_dir}  \
-                                    ${software}
+                                    ${software}     \
+                                    ${user}

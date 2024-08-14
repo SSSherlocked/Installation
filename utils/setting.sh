@@ -1,12 +1,13 @@
 #! /bin/bash
 
 function setting() {
-    local system=$1
-    local user=$2
+    local user=$1
+    local system=$2
     local your_home_dir
     local home_dir
     if [ ${user} == 'root' ]; then
         your_home_dir=""
+        profile_name=""
     else
         your_home_dir=$(cd && pwd)
         if [ ${system} == 'macos' ]; then

@@ -101,7 +101,7 @@ function install() {
 }
 
 
-source ${script_path}/setting.sh    "" ""
+source ${script_path}/setting.sh    "$1" "$2"
 set_compiler
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
