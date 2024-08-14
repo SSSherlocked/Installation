@@ -2,8 +2,8 @@
 
 software="miniforge3"
 software_download_url="https://mirrors.tuna.tsinghua.edu.cn/github-release/conda-forge/miniforge/LatestRelease"
-software_version="Miniforge3-MacOSX-arm64"
-# software_version="Miniforge3-Linux-x86_64"
+# software_version="Miniforge3-MacOSX-arm64"
+software_version="Miniforge3-Linux-x86_64"
 
 script_path="$(dirname "$(pwd)")/utils"
 conda_profile_name="${your_home_dir}/.condarc"
@@ -14,15 +14,13 @@ function install() {
     local software_version=$2
     local install_dir=$3
     echo -e "\e[32m>> Installing ... \e[0m"
-    bash ${pack_dir}/${software_version} -p ${install_dir} -b -f
-    check
+    bash ${pack_dir}/${software_version}.sh -p ${install_dir} -b -f
 }
 
 # Initialize
 function init() {
     echo -e "\e[32m>> Initializing ... \e[0m"
     ${install_dir}/bin/conda init bash
-    check
 }
 
 # Change the download source
@@ -44,14 +42,12 @@ function change_source() {
       pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
       simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud" \
     >> ${conda_profile_name}
-    check
 }
 
 # Install packages
 function install_packages() {
     echo -e "\e[32m>> Installing packages ... \e[0m"
     python Install_CondaPackages.py
-    check
 }
 
 
