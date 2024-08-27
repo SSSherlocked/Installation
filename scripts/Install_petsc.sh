@@ -91,6 +91,8 @@ function install() {
     check
     echo ">> Configuring ..."
 
+    ## avoid potential errors related to environment variable settings
+    PETSC_DIR=${unzip_dir}
     ./configure --prefix=${install_dir}     \
                 --with-cc=${cc_compiler}    \
                 --with-cxx=${cxx_compiler}  \
