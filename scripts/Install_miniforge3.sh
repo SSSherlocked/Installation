@@ -6,8 +6,6 @@ software_download_url="https://mirrors.tuna.tsinghua.edu.cn/github-release/conda
 software_version="Miniforge3-Linux-x86_64"
 
 script_path="$(dirname "$(pwd)")/utils"
-conda_profile_name="${your_home_dir}/.condarc"
-user=$1
 
 # Install
 function install() {
@@ -26,23 +24,30 @@ function init() {
 
 # Change the download source
 function change_source() {
-    echo -e "\e[32m>> Changing source ... \e[0m"
-    echo \
-    "channels:
-      - defaults
-    show_channel_urls: true
-    default_channels:
-      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
-      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
-      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
-    custom_channels:
-      conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-      msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-      bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-      menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-      pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-      simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud" \
-    >> ${conda_profile_name}
+    local user
+    user=$(whoami)
+    if [ ${user} == "root" ]; then
+        echo ">> Installing packages as root."
+    else
+        local conda_profile_name="${HOME}/.condarc"
+        echo -e "\e[32m>> Changing source ... \e[0m"
+        echo \
+        "channels:
+          - defaults
+        show_channel_urls: true
+        default_channels:
+          - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+          - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+          - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+        custom_channels:
+          conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+          msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+          bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+          menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+          pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+          simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud" \
+        >> ${conda_profile_name}
+    fi
 }
 
 # Install packages
@@ -52,12 +57,11 @@ function install_packages() {
 }
 
 
-source ${script_path}/setting.sh    ${user} "$2"
+source ${script_path}/setting.sh    ${software} ${software_version}
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
                                     ".sh"
 install ${package_dir} ${software_version} ${install_dir}
-source ${script_path}/variable.sh   ${profile_name} \
-                                    ${install_dir}  \
-                                    ${software}     \
-                                    ${user}
+source ${script_path}/variable.sh   ${install_dir}  \
+                                    ${software}
+change_source

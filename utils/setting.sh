@@ -1,25 +1,20 @@
 #! /bin/bash
 
 function setting() {
-    local user=$1
-    local system=$2
-    local your_home_dir
-    local home_dir
-    if [ ${user} == 'root' ]; then
-        your_home_dir=""
-        profile_name=""
+    local software=$1
+    local software_version=$2
+
+    user=$(whoami)
+    if [ "${user}" == 'root' ]; then
+        echo ">> Running as root."
+        tmp_dir="/opt/tmp/${software}"
+        install_dir="/opt/${software}/${software_version}"
     else
-        your_home_dir=$(cd && pwd)
-        if [ ${system} == 'macos' ]; then
-            profile_name="${your_home_dir}/.zshrc"
-        else
-            profile_name="${your_home_dir}/.bashrc"
-        fi
+        echo ">> Installing for ${user}."
+        tmp_dir="${HOME}/opt/tmp/${software}"
+        install_dir="${HOME}/opt/${software}/${software_version}"
     fi
-    home_dir=$(pwd)
-    package_dir="${home_dir}/packages"
-    tmp_dir="${your_home_dir}/opt/tmp/${software}"
-    install_dir="${your_home_dir}/opt/${software}/${software_version}"
+    package_dir="$(pwd)/packages"
 }
 
 setting $1 $2

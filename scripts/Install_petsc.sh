@@ -23,40 +23,52 @@ mpich_name="mpich-4.2.1"
 openmpi_url="https://download.open-mpi.org/release/open-mpi/v5.0"
 openmpi_name="openmpi-5.0.3"
 
-download_mpi_flag=0
 download_mpi_type="mpich"
-
 script_path="$(dirname "$(pwd)")/utils"
 
 
 function check() {
     if [ $? -ne 0 ]; then
-        echo -e "\e[31m>> Installation failed. \e[0m"
+        echo ">> Installation failed."
         exit
     fi
 }
 
 function set_compiler() {
-    system_type=$(uname)
-    if [[ ${download_mpi_flag} -eq 0 ]]; then
+    local mpi_exist_flag=1
+    command -v mpicc    > /dev/null 2>&1 || { mpi_exist_flag=0; }
+    command -v mpicxx   > /dev/null 2>&1 || { mpi_exist_flag=0; }
+    command -v mpifort  > /dev/null 2>&1 || { mpi_exist_flag=0; }
+    if [[ ${mpi_exist_flag} -ne 0 ]]; then
         cc_compiler=mpicc
         cxx_compiler=mpicxx
         f_compiler=mpifort
         mpi_flag=""
     else
-        cc_compiler=gcc
-        cxx_compiler=g++
-        f_compiler=gfortran
-        if [[ ${download_mpi_type} == 'mpich' ]]; then
-            mpi_flag="--download-mpich=${pack_dir}/${mpich_name}.tar.gz"
-        elif [[ ${download_mpi_type} == 'openmpi' ]]; then
-            mpi_flag="--download-openmpi=${pack_dir}/${openmpi_name}.tar.gz"
+        local gcc_exist_flag=1
+        command -v gcc      > /dev/null 2>&1 || { gcc_exist_flag=0; }
+        command -v g++      > /dev/null 2>&1 || { gcc_exist_flag=0; }
+        command -v gfortran > /dev/null 2>&1 || { gcc_exist_flag=0; }
+        if [[ ${gcc_exist_flag} -ne 0 ]]; then
+            cc_compiler=gcc
+            cxx_compiler=g++
+            f_compiler=gfortran
+            if [[ ${download_mpi_type} == 'mpich' ]]; then
+                mpi_flag="--download-mpich=${pack_dir}/${mpich_name}.tar.gz"
+            elif [[ ${download_mpi_type} == 'openmpi' ]]; then
+                mpi_flag="--download-openmpi=${pack_dir}/${openmpi_name}.tar.gz"
+            else
+                echo ">> Cannot specify the MPI type!"
+                exit
+            fi
         else
-            echo -e "\e[31m>> Cannot specify the MPI type! \e[0m"
-            exit
+            echo ">> Cannot specify the compiler!"
+            echo ">> Please install the compiler first (gcc or mpi)."
+            exit 1
         fi
     fi
 
+    system_type=$(uname)
     if [[ ${system_type} == 'Linux' ]]; then
         arch='arch-linux-c-debug'
     elif [[ ${system_type} == 'Darwin' ]]; then
@@ -65,7 +77,7 @@ function set_compiler() {
         arch='arch-mswin-c-debug'
         mpi_flag="--with-mpi=0"
     else
-        echo -e "\e[31m>> Cannot specify the system type! \e[0m"
+        echo ">> Cannot specify the system type!"
         exit
     fi
     echo "PETSC_ARCH: ${arch}"
@@ -77,7 +89,7 @@ function install() {
     local unzip_dir=$2
     cd ${unzip_dir}
     check
-    echo -e "\e[32m>> Configuring ... \e[0m"
+    echo ">> Configuring ..."
 
     ./configure --prefix=${install_dir}     \
                 --with-cc=${cc_compiler}    \
@@ -89,19 +101,19 @@ function install() {
                 ${mpi_flag}
 
     check
-    echo -e "\e[32m>> Compiling ... \e[0m"
+    echo ">> Compiling ..."
     make PETSC_DIR=${unzip_dir}     PETSC_ARCH=${arch}  all
     check
-    echo -e "\e[32m>> Installing ... \e[0m"
+    echo ">> Installing ..."
     make PETSC_DIR=${unzip_dir}     PETSC_ARCH=${arch}  install
     check
-    echo -e "\e[32m>> Testing ... \e[0m"
+    echo ">> Testing ..."
     make PETSC_DIR=${install_dir}   PETSC_ARCH=""       check
     check
 }
 
 
-source ${script_path}/setting.sh    "$1" "$2"
+source ${script_path}/setting.sh    ${software} ${software_version}
 set_compiler
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \

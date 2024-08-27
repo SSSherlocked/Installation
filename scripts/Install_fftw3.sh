@@ -4,9 +4,11 @@ software="fftw3"
 software_download_url="http://fftw.org"
 software_version="fftw-3.3.10"
 
+
 script_path="$(dirname "$(pwd)")/utils"
 
-source ${script_path}/setting.sh    "$1" "$2"
+
+source ${script_path}/setting.sh    ${software} ${software_version}
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
                                     ".tar.gz"
