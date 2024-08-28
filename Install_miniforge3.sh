@@ -5,7 +5,6 @@ software_download_url="https://mirrors.tuna.tsinghua.edu.cn/github-release/conda
 # software_version="Miniforge3-MacOSX-arm64"
 software_version="Miniforge3-Linux-x86_64"
 
-script_path="$(dirname "$(pwd)")/utils"
 
 # Install
 function install() {
@@ -57,7 +56,8 @@ function install_packages() {
 }
 
 
-source ${script_path}/setting.sh    ${software} ${software_version}
+script_path="$(cd $(dirname $0);pwd)/utils"
+source ${script_path}/setting.sh    ${software} ${software_version} ${script_path}
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
                                     ".sh"

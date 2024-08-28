@@ -2,7 +2,7 @@
 
 software="petsc"
 software_download_url="https://web.cels.anl.gov/projects/petsc/download/release-snapshots"
-software_version="petsc-3.21.3"
+software_version="petsc-3.21.4"
 
 ## To enable blaslapack, using '--download-fblaslapack=' when Fortran compiler is present,
 fblaslapack_url="https://bitbucket.org/petsc/pkg-fblaslapack/get/v3.4.2-p3"
@@ -15,16 +15,13 @@ f2cblaslapack_name="f2cblaslapack-3.8.0.q2"
 hypre_url="https://github.com/hypre-space/hypre/archive/refs/tags/v2.31.0"
 hypre_name="hypre-2.31.0"
 
+download_mpi_type="mpich"
 ## mpich
-mpich_url="https://www.mpich.org/static/downloads/4.2.1"
-mpich_name="mpich-4.2.1"
-
+mpich_url="https://www.mpich.org/static/downloads/4.2.2"
+mpich_name="mpich-4.2.2"
 ## openmpi
 openmpi_url="https://download.open-mpi.org/release/open-mpi/v5.0"
-openmpi_name="openmpi-5.0.3"
-
-download_mpi_type="mpich"
-script_path="$(dirname "$(pwd)")/utils"
+openmpi_name="openmpi-5.0.5"
 
 
 function check() {
@@ -35,6 +32,8 @@ function check() {
 }
 
 function set_compiler() {
+    local pack_dir=$1
+
     local mpi_exist_flag=1
     command -v mpicc    > /dev/null 2>&1 || { mpi_exist_flag=0; }
     command -v mpicxx   > /dev/null 2>&1 || { mpi_exist_flag=0; }
@@ -93,13 +92,17 @@ function install() {
 
     ## avoid potential errors related to environment variable settings
     PETSC_DIR=${unzip_dir}
+    echo "PETSC_DIR: ${PETSC_DIR}"
+    echo "C       compiler: ${cc_compiler}"
+    echo "C++     compiler: ${cxx_compiler}"
+    echo "Fortran compiler: ${f_compiler}"
+
     ./configure --prefix=${install_dir}     \
                 --with-cc=${cc_compiler}    \
                 --with-cxx=${cxx_compiler}  \
                 --with-fc=${f_compiler}     \
                 --download-fblaslapack=${pack_dir}/${fblaslapack_name}.tar.gz   \
                 --download-hypre=${pack_dir}/${hypre_name}.tar.gz               \
-                COPTFLAGS='-O2' CXXOPTFLAGS='-O2' FOPTFLAGS='-O2'               \
                 ${mpi_flag}
 
     check
@@ -115,8 +118,9 @@ function install() {
 }
 
 
-source ${script_path}/setting.sh    ${software} ${software_version}
-set_compiler
+export script_path="$(cd $(dirname $0);pwd)/utils"
+source ${script_path}/setting.sh    ${software} ${software_version} ${script_path}
+set_compiler                        ${package_dir}
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
                                     ".tar.gz"
@@ -135,4 +139,5 @@ source ${script_path}/download.sh   ${openmpi_url}/${openmpi_name} \
 source ${script_path}/unzip.sh      ${package_dir}/${software_version} \
                                     ${tmp_dir} \
                                     ".tar.gz"
-install         ${package_dir}      ${tmp_dir}/${software_version}
+install                             ${package_dir} \
+                                    ${tmp_dir}/${software_version}

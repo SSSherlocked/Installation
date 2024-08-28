@@ -1,14 +1,12 @@
 #！/bin/bash
 
-software="openmpi"
-software_download_url="https://download.open-mpi.org/release/open-mpi/v5.0"
-software_version="openmpi-5.0.3"
+software="make"
+software_download_url="https://ftp.gnu.org/gnu/make"
+software_version="make-4.4.1"
 
 
-script_path="$(dirname "$(pwd)")/utils"
-
-
-source ${script_path}/setting.sh    ${software} ${software_version}
+script_path="$(cd $(dirname $0);pwd)/utils"
+source ${script_path}/setting.sh    ${software} ${software_version} ${script_path}
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
                                     ".tar.gz"
