@@ -6,7 +6,8 @@ software_version="fftw-3.3.10"
 
 
 script_path="$(cd $(dirname $0);pwd)/utils"
-source ${script_path}/setting.sh    ${software} ${software_version} ${script_path}
+source ${script_path}/setting.sh    ${software} \
+                                    ${software_version}
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
                                     ".tar.gz"

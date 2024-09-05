@@ -3,7 +3,7 @@
 function setting() {
     local software=$1
     local software_version=$2
-    local script_path=$3
+    local pack_path
 
     user=$(whoami)
     if [ "${user}" == 'root' ]; then
@@ -15,7 +15,8 @@ function setting() {
         export tmp_dir="${HOME}/opt/tmp/${software}"
         export install_dir="${HOME}/opt/${software}/${software_version}"
     fi
-    export package_dir="${script_path}/packages"
+    pack_path = $(dirname $(pwd))
+    export package_dir="${pack_path}/packages"
 }
 
 setting $1 $2

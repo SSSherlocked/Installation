@@ -119,7 +119,8 @@ function install() {
 
 
 export script_path="$(cd $(dirname $0);pwd)/utils"
-source ${script_path}/setting.sh    ${software} ${software_version} ${script_path}
+source ${script_path}/setting.sh    ${software} \
+                                    ${software_version}
 set_compiler                        ${package_dir}
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
