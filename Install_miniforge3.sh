@@ -1,4 +1,6 @@
 #！/bin/bash
+export script_path="$(cd $(dirname $0);pwd)/utils"
+
 
 software="miniforge3"
 software_download_url="https://mirrors.tuna.tsinghua.edu.cn/github-release/conda-forge/miniforge/LatestRelease"
@@ -56,7 +58,6 @@ function install_packages() {
 }
 
 
-script_path="$(cd $(dirname $0);pwd)/utils"
 source ${script_path}/setting.sh    ${software} \
                                     ${software_version}
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \

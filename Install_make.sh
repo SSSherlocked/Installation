@@ -1,11 +1,12 @@
 #！/bin/bash
+export script_path="$(cd $(dirname $0);pwd)/utils"
+
 
 software="make"
 software_download_url="https://ftp.gnu.org/gnu/make"
 software_version="make-4.4.1"
 
 
-script_path="$(cd $(dirname $0);pwd)/utils"
 source ${script_path}/setting.sh    ${software} \
                                     ${software_version}
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \

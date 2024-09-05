@@ -1,4 +1,6 @@
 #！/bin/bash
+export script_path="$(cd $(dirname $0);pwd)/utils"
+
 
 software="petsc"
 software_download_url="https://web.cels.anl.gov/projects/petsc/download/release-snapshots"
@@ -118,7 +120,6 @@ function install() {
 }
 
 
-export script_path="$(cd $(dirname $0);pwd)/utils"
 source ${script_path}/setting.sh    ${software} \
                                     ${software_version}
 set_compiler                        ${package_dir}

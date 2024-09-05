@@ -1,13 +1,15 @@
 #！/bin/bash
+export script_path="$(cd $(dirname $0);pwd)/utils"
+
 
 software="openmpi"
 software_download_url="https://download.open-mpi.org/release/open-mpi/v5.0"
 software_version="openmpi-5.0.3"
 
 
-script_path="$(cd $(dirname $0);pwd)/utils"
 source ${script_path}/setting.sh    ${software} \
                                     ${software_version}
+source ${script_path}/check_comp.sh gcc g++ gfortran
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
                                     ${package_dir}/${software_version} \
                                     ".tar.gz"

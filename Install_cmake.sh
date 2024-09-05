@@ -1,11 +1,12 @@
 #！/bin/bash
+export script_path="$(cd $(dirname $0);pwd)/utils"
+
 
 software="cmake"
 software_download_url="https://cmake.org/files/v3.26"
 software_version="cmake-3.26.6"
 
 
-script_path="$(cd $(dirname $0);pwd)/utils"
 source ${script_path}/setting.sh    ${software} \
                                     ${software_version}
 source ${script_path}/download.sh   ${software_download_url}/${software_version} \
