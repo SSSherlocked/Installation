@@ -7,19 +7,22 @@ function check() {
     fi
 }
 
+# Use all CPU cores to compile
+function makeit() {
+    local target=$1
+    if [ "$(uname)" == 'Darwin' ]; then
+        make -j $(sysctl -n hw.ncpu) "$target"
+    else
+        make -j $(nproc) "$target"
+    fi
+}
+
 # Auto download required packages
 function install() {
     local unzip_dir=$1
     local install_dir=$2
     local install_flag=$3
     cd "${unzip_dir}" || ! echo -e "\e[31m>> Fail to enter ${unzip_dir}!\e[0m" || exit
-
-    shopt -s expand_aliases
-    if [ "$(uname)" == 'Darwin' ]; then
-        alias makeit="make -j $(sysctl -n hw.ncpu)"
-    else
-        alias makeit="make -j $(nproc)"
-    fi
 
     echo ">> Configuring ..."
     ./configure --prefix="${install_dir}" ${install_flag}
@@ -32,8 +35,6 @@ function install() {
     echo ">> Installing ..."
     makeit install
     check
-
-    unalias makeit
 }
 
 install $1 $2 $3
