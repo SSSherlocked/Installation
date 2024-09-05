@@ -14,6 +14,7 @@ function install() {
     local install_flag=$3
     cd "${unzip_dir}" || ! echo -e "\e[31m>> Fail to enter ${unzip_dir}!\e[0m" || exit
 
+    shopt -s expand_aliases
     if [ "$(uname)" == 'Darwin' ]; then
         alias makeit="make -j $(sysctl -n hw.ncpu)"
     else
