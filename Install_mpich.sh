@@ -3,8 +3,8 @@ export script_path="$(cd $(dirname $0);pwd)/utils"
 
 
 software="mpich"
-software_download_url="https://www.mpich.org/static/downloads/4.2.1"
-software_version="mpich-4.2.1"
+software_download_url="https://www.mpich.org/static/downloads/4.2.2"
+software_version="mpich-4.2.2"
 
 
 source ${script_path}/setting.sh    ${software} \
