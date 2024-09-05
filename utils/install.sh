@@ -7,9 +7,6 @@ function check() {
     fi
 }
 
-function alias_make() {
-}
-
 # Auto download required packages
 function install() {
     local unzip_dir=$1
