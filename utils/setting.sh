@@ -15,7 +15,7 @@ function setting() {
         export tmp_dir="${HOME}/opt/tmp/${software}"
         export install_dir="${HOME}/opt/${software}/${software_version}"
     fi
-    pack_path = $(dirname $(pwd))
+    pack_path="$(cd $(dirname $0);pwd)"
     export package_dir="${pack_path}/packages"
 }
 
