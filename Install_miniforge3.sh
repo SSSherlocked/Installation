@@ -8,6 +8,13 @@ software_download_url="https://mirrors.tuna.tsinghua.edu.cn/github-release/conda
 software_version="Miniforge3-Linux-x86_64"
 
 
+function check() {
+    if [ $? -ne 0 ]; then
+        echo ">> Installation failed!"
+        exit
+    fi
+}
+
 # Install
 function install() {
     local pack_dir=$1
@@ -15,12 +22,14 @@ function install() {
     local install_dir=$3
     echo -e "\e[32m>> Installing ... \e[0m"
     bash ${pack_dir}/${software_version}.sh -p ${install_dir} -b -f
+    check
 }
 
 # Initialize
 function init() {
     echo -e "\e[32m>> Initializing ... \e[0m"
     ${install_dir}/bin/conda init bash
+    check
 }
 
 # Change the download source
@@ -49,6 +58,7 @@ function change_source() {
           simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud" \
         >> ${conda_profile_name}
     fi
+    check
 }
 
 # Install packages
