@@ -20,7 +20,7 @@ source ${script_path}/install.sh    ${tmp_dir}/${software_version} \
                                     ""
 source ${script_path}/install.sh    ${tmp_dir}/${software_version} \
                                     ${install_dir} \
-                                    "--enable-float"
-source ${script_path}/install.sh    ${tmp_dir}/${software_version} \
-                                    ${install_dir} \
-                                    "--enable-long-double"
+                                    "--enable-single \
+                                    --enable-float \
+                                    --enable-long-double \
+                                    --enable-mpi"
