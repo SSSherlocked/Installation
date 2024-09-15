@@ -23,4 +23,7 @@ source ${script_path}/install.sh    ${tmp_dir}/${software_version} \
                                     "--enable-single \
                                     --enable-float \
                                     --enable-long-double \
-                                    --enable-mpi"
+                                    --enable-mpi \
+                                    CFLAGS="-fPIC" \
+                                    CXXFLAGS="-fPIC" \
+                                    FFLAGS="-fPIC""
