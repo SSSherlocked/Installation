@@ -24,6 +24,7 @@ source ${script_path}/install.sh    ${tmp_dir}/${software_version} \
                                     --enable-float \
                                     --enable-long-double \
                                     --enable-mpi \
+                                    --enable-shared \
                                     CFLAGS="-fPIC" \
                                     CXXFLAGS="-fPIC" \
                                     FFLAGS="-fPIC""
