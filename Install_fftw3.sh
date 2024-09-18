@@ -27,31 +27,25 @@ source ${script_path}/unzip.sh              ${package_dir}/${software_version} \
 insert_compile_flag                         ${tmp_dir}/${software_version}
 source ${script_path}/cmake_install.sh      ${tmp_dir}/${software_version} \
                                             ${install_dir} \
-                                            "-DENABLE_MPI=ON \
-                                            -DENABLE_SHARED=ON"
+                                            "-DENABLE_MPI=ON"
 source ${script_path}/cmake_install.sh      ${tmp_dir}/${software_version} \
                                             ${install_dir} \
                                             "-DENABLE_FLOAT=ON\
-                                            -DENABLE_MPI=ON \
-                                            -DENABLE_SHARED=ON"
+                                            -DENABLE_MPI=ON"
 source ${script_path}/cmake_install.sh      ${tmp_dir}/${software_version} \
                                             ${install_dir} \
                                             "-DENABLE_LONG_DOUBLE=ON \
-                                            -DENABLE_MPI=ON \
-                                            -DENABLE_SHARED=ON"
+                                            -DENABLE_MPI=ON"
 
 
 #source ${script_path}/install.sh            ${tmp_dir}/${software_version} \
 #                                            ${install_dir} \
-#                                            "--enable-mpi \
-#                                            --enable-shared"
+#                                            "--enable-mpi"
 #source ${script_path}/install.sh            ${tmp_dir}/${software_version} \
 #                                            ${install_dir} \
 #                                            "--enable-float \
-#                                            --enable-mpi \
-#                                            --enable-shared"
+#                                            --enable-mpi"
 #source ${script_path}/install.sh            ${tmp_dir}/${software_version} \
 #                                            ${install_dir} \
 #                                            "--enable-long-double \
-#                                            --enable-mpi \
-#                                            --enable-shared"
+#                                            --enable-mpi"
