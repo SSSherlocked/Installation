@@ -12,20 +12,20 @@ function install() {
     local unzip_dir=$1
     local install_dir=$2
     local install_flag=$3
-    cd "${unzip_dir}" || ! echo -e "\e[31m>> Fail to enter ${unzip_dir}!\e[0m" || exit
+    local build_dir="${unzip_dir}/build"
 
-    mkdir -p build
-    cd build || ! echo -e "\e[31m>> Fail to enter build!\e[0m" || exit
-
-    echo ">> Configuring ..."
-    cmake .. -DCMAKE_INSTALL_PREFIX="${install_dir}" ${install_flag}
+    echo ">> CMake configuring ..."
+    cmake -S ${unzip_dir} \
+          -B ${build_dir} \
+          -DCMAKE_INSTALL_PREFIX="${install_dir}" \
+          ${install_flag}
     check
 
     echo ">> Compiling and installing ..."
     if [ "$(uname)" == 'Darwin' ]; then
-        cmake --build . --target install -j $(sysctl -n hw.ncpu)
+        cmake --build ${build_dir} --target install -j $(sysctl -n hw.ncpu)
     else
-        cmake --build . --target install -j $(nproc)
+        cmake --build ${build_dir} --target install -j $(nproc)
     fi
     check
 }
