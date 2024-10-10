@@ -41,22 +41,20 @@ function change_source() {
     else
         local conda_profile_name="${HOME}/.condarc"
         echo -e "\e[32m>> Changing source ... \e[0m"
-        echo \
-        "channels:
-          - defaults
-        show_channel_urls: true
-        default_channels:
-          - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
-          - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
-          - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
-        custom_channels:
-          conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-          msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-          bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-          menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-          pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-          simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud" \
-        >> ${conda_profile_name}
+        echo "channels:"                 >> ${conda_profile_name}
+        echo "  - defaults"              >> ${conda_profile_name}
+        echo "show_channel_urls: true"   >> ${conda_profile_name}
+        echo "default_channels:"         >> ${conda_profile_name}
+        echo "  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main"         >> ${conda_profile_name}
+        echo "  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r"            >> ${conda_profile_name}
+        echo "  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2"        >> ${conda_profile_name}
+        echo "custom_channels:"          >> ${conda_profile_name}
+        echo "  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"  >> ${conda_profile_name}
+        echo "  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"        >> ${conda_profile_name}
+        echo "  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"     >> ${conda_profile_name}
+        echo "  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"        >> ${conda_profile_name}
+        echo "  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"      >> ${conda_profile_name}
+        echo "  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"    >> ${conda_profile_name}
     fi
     check
 }
