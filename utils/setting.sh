@@ -1,8 +1,8 @@
 #! /bin/bash
 
 function setting() {
-    local software=$1
-    local software_version=$2
+    local software="$1"
+    local software_version="$2"
     local pack_path
 
     user=$(whoami)
@@ -19,4 +19,4 @@ function setting() {
     export package_dir="${pack_path}/packages"
 }
 
-setting $1 $2
+setting "$1" "$2"

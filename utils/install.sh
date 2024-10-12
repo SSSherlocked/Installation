@@ -9,36 +9,21 @@ function check() {
 
 # Use all CPU cores to compile
 function makeit() {
-    local target=$1
-    local flag=1
-    if [ -z "${target}" ]; then
-        flag=0
-    fi
-
-    if [ "$(uname)" == 'Darwin' ]; then
-        if [ $flag -eq 0 ]; then
-            make -j $(sysctl -n hw.ncpu)
-        else
-            make -j $(sysctl -n hw.ncpu) "$target"
-        fi
-    else
-        if [ $flag -eq 0 ]; then
-            make -j $(nproc)
-        else
-            make -j $(nproc) "$target"
-        fi
-    fi
+    local target="$1"
+    source make.sh "$target"
 }
 
 # Auto download required packages
 function install() {
-    local unzip_dir=$1
-    local install_dir=$2
-    local install_flag=$3
+    local unzip_dir="$1"
+    local install_dir="$2"
+    local install_flag="$3"
     cd "${unzip_dir}" || ! echo -e "\e[31m>> Fail to enter ${unzip_dir}!\e[0m" || exit
 
+    ## The ${install_flag} is optional, and need to be expanded by using the 'eval' command.
     echo ">> Configuring ..."
-    ./configure --prefix="${install_dir}" ${install_flag}
+    eval ./configure --prefix="${install_dir}" "${install_flag}"
+    exit
     check
 
     echo ">> Compiling ..."
@@ -50,4 +35,4 @@ function install() {
     check
 }
 
-install $1 $2 $3
+install "$1" "$2" "$3"

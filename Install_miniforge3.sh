@@ -21,14 +21,14 @@ function install() {
     local software_version=$2
     local install_dir=$3
     echo -e "\e[32m>> Installing ... \e[0m"
-    bash ${pack_dir}/${software_version}.sh -p ${install_dir} -b -f
+    bash "${pack_dir}/${software_version}.sh" -p "${install_dir}" -b -f
     check
 }
 
 # Initialize
 function init() {
     echo -e "\e[32m>> Initializing ... \e[0m"
-    ${install_dir}/bin/conda init bash
+    "${install_dir}/bin/conda" init bash
     check
 }
 
@@ -41,20 +41,20 @@ function change_source() {
     else
         local conda_profile_name="${HOME}/.condarc"
         echo -e "\e[32m>> Changing source ... \e[0m"
-        echo "channels:"                 >> ${conda_profile_name}
-        echo "  - defaults"              >> ${conda_profile_name}
-        echo "show_channel_urls: true"   >> ${conda_profile_name}
-        echo "default_channels:"         >> ${conda_profile_name}
-        echo "  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main"         >> ${conda_profile_name}
-        echo "  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r"            >> ${conda_profile_name}
-        echo "  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2"        >> ${conda_profile_name}
-        echo "custom_channels:"          >> ${conda_profile_name}
-        echo "  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"  >> ${conda_profile_name}
-        echo "  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"        >> ${conda_profile_name}
-        echo "  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"     >> ${conda_profile_name}
-        echo "  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"        >> ${conda_profile_name}
-        echo "  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"      >> ${conda_profile_name}
-        echo "  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"    >> ${conda_profile_name}
+        echo "channels:"                 >> "${conda_profile_name}"
+        echo "  - defaults"              >> "${conda_profile_name}"
+        echo "show_channel_urls: true"   >> "${conda_profile_name}"
+        echo "default_channels:"         >> "${conda_profile_name}"
+        echo "  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main"         >> "${conda_profile_name}"
+        echo "  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r"            >> "${conda_profile_name}"
+        echo "  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2"        >> "${conda_profile_name}"
+        echo "custom_channels:"          >> "${conda_profile_name}"
+        echo "  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"  >> "${conda_profile_name}"
+        echo "  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"        >> "${conda_profile_name}"
+        echo "  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"     >> "${conda_profile_name}"
+        echo "  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"        >> "${conda_profile_name}"
+        echo "  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"      >> "${conda_profile_name}"
+        echo "  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud"    >> "${conda_profile_name}"
     fi
     check
 }

@@ -9,12 +9,12 @@ function check() {
 
 # Unzip
 function unzip() {
-    local pack_name=$1
-    local unzip_dir=$2
-    local type=$3
+    local pack_name="$1"
+    local unzip_dir="$2"
+    local type="$3"
     mkdir -p "${unzip_dir}"
     tar -zxvf "${pack_name}${type}" -C "${unzip_dir}"
     check
 }
 
-unzip $1 $2 $3
+unzip "$1" "$2" "$3"

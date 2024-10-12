@@ -2,8 +2,8 @@
 
 # Set environment variables
 function set_env() {
-    local install_dir=$1
-    local software=$2
+    local install_dir="$1"
+    local software="$2"
 
     user=$(whoami)
     if [ "${user}" == 'root' ]; then
@@ -24,4 +24,4 @@ function set_env() {
     fi
 }
 
-set_env $1 $2
+set_env "$1" "$2"

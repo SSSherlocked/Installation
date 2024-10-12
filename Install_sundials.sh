@@ -2,21 +2,25 @@
 export script_path="$(cd $(dirname $0);pwd)/utils"
 
 
-software="openmpi"
-software_download_url="https://download.open-mpi.org/release/open-mpi/v5.0"
-software_version="openmpi-5.0.3"
+software="sundials"
+software_download_url="https://github.com/LLNL/sundials/releases/download/v7.1.1"
+software_version="sundials-7.1.1"
+
+
+install_flags="-D ENABLE_MPI=ON \
+               -D BUILD_FORTRAN_MODULE_INTERFACE=ON \
+               -D EXAMPLES_ENABLE_C=ON \
+               -D EXAMPLES_ENABLE_CXX=ON"
 
 
 source "${script_path}/setting.sh"          "${software}" \
                                             "${software_version}"
-source "${script_path}/check_comp.sh"       gcc g++ gfortran
 source "${script_path}/download.sh"         "${software_download_url}/${software_version}" \
                                             "${package_dir}/${software_version}" \
                                             ".tar.gz"
 source "${script_path}/unzip.sh"            "${package_dir}/${software_version}" \
                                             "${tmp_dir}" \
                                             ".tar.gz"
-source "${script_path}/install.sh"          "${tmp_dir}/${software_version}" \
-                                            "${install_dir}"
-source "${script_path}/variable.sh"         "${install_dir}" \
-                                            "${software}"
+source "${script_path}/cmake_install.sh"    "${tmp_dir}/${software_version}" \
+                                            "${install_dir}" \
+                                            "${install_flags}"

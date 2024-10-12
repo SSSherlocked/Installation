@@ -14,7 +14,7 @@ f2cblaslapack_url="https://web.cels.anl.gov/projects/petsc/download/externalpack
 f2cblaslapack_name="f2cblaslapack-3.8.0.q2"
 
 ## hypre
-hypre_url="https://github.com/hypre-space/hypre/archive/refs/tags/v2.31.0"
+hypre_url="https://codeload.github.com/hypre-space/hypre/tar.gz/refs/tags/v2.31.0"
 hypre_name="hypre-2.31.0"
 
 download_mpi_type="mpich"
@@ -33,8 +33,14 @@ function check() {
     fi
 }
 
+# Use all CPU cores to compile
+function makeit() {
+    local target="$1"
+    source "${script_path}/make.sh" "$target"
+}
+
 function set_compiler() {
-    local pack_dir=$1
+    local pack_dir="$1"
 
     local mpi_exist_flag=1
     command -v mpicc    > /dev/null 2>&1 || { mpi_exist_flag=0; }
@@ -74,9 +80,6 @@ function set_compiler() {
         arch='arch-linux-c-debug'
     elif [[ ${system_type} == 'Darwin' ]]; then
         arch='arch-darwin-c-debug'
-    elif shopt -s nocasematch && [[ ${system_type} =~ ^cygwin.* ]]; then
-        arch='arch-mswin-c-debug'
-        mpi_flag="--with-mpi=0"
     else
         echo ">> Cannot specify the system type!"
         exit
@@ -86,9 +89,9 @@ function set_compiler() {
 
 # Install
 function install() {
-    local pack_dir=$1
-    local unzip_dir=$2
-    cd ${unzip_dir}
+    local pack_dir="$1"
+    local unzip_dir="$2"
+    cd "${unzip_dir}" || exit
     check
     echo ">> Configuring ..."
 
@@ -99,47 +102,47 @@ function install() {
     echo "C++     compiler: ${cxx_compiler}"
     echo "Fortran compiler: ${f_compiler}"
 
-    ./configure --prefix=${install_dir}     \
+    ./configure --prefix="${install_dir}"     \
                 --with-cc=${cc_compiler}    \
                 --with-cxx=${cxx_compiler}  \
                 --with-fc=${f_compiler}     \
-                --download-fblaslapack=${pack_dir}/${fblaslapack_name}.tar.gz   \
-                --download-hypre=${pack_dir}/${hypre_name}.tar.gz               \
-                ${mpi_flag}
+                --download-fblaslapack="${pack_dir}/${fblaslapack_name}.tar.gz"   \
+                --download-hypre="${pack_dir}/${hypre_name}.tar.gz"               \
+                "${mpi_flag}"
 
     check
     echo ">> Compiling ..."
-    make PETSC_DIR=${unzip_dir}     PETSC_ARCH=${arch}  all
+    makeit "PETSC_DIR=${unzip_dir}     PETSC_ARCH=${arch}   all"
     check
     echo ">> Installing ..."
-    make PETSC_DIR=${unzip_dir}     PETSC_ARCH=${arch}  install
+    makeit "PETSC_DIR=${unzip_dir}     PETSC_ARCH=${arch}   install"
     check
     echo ">> Testing ..."
-    make PETSC_DIR=${install_dir}   PETSC_ARCH=""       check
+    makeit "PETSC_DIR=${install_dir}   PETSC_ARCH=""        check"
     check
 }
 
 
-source ${script_path}/setting.sh    ${software} \
-                                    ${software_version}
-set_compiler                        ${package_dir}
-source ${script_path}/download.sh   ${software_download_url}/${software_version} \
-                                    ${package_dir}/${software_version} \
-                                    ".tar.gz"
-source ${script_path}/download.sh   ${fblaslapack_url} \
-                                    ${package_dir}/${fblaslapack_name} \
-                                    ".tar.gz"
-source ${script_path}/download.sh   ${hypre_url}/${hypre_name} \
-                                    ${package_dir}/${hypre_name} \
-                                    ".tar.gz"
-source ${script_path}/download.sh   ${mpich_url}/${mpich_name} \
-                                    ${package_dir}/${mpich_name} \
-                                    ".tar.gz"
-source ${script_path}/download.sh   ${openmpi_url}/${openmpi_name} \
-                                    ${package_dir}/${openmpi_name} \
-                                    ".tar.gz"
-source ${script_path}/unzip.sh      ${package_dir}/${software_version} \
-                                    ${tmp_dir} \
-                                    ".tar.gz"
-install                             ${package_dir} \
-                                    ${tmp_dir}/${software_version}
+source "${script_path}/setting.sh"      "${software}" \
+                                        "${software_version}"
+set_compiler                            "${package_dir}"
+source "${script_path}/download.sh"     "${software_download_url}/${software_version}" \
+                                        "${package_dir}/${software_version}" \
+                                        ".tar.gz"
+source "${script_path}/download.sh"     "${fblaslapack_url}" \
+                                        "${package_dir}/${fblaslapack_name}" \
+                                        ".tar.gz"
+source "${script_path}/download.sh"     "${hypre_url}/${hypre_name}" \
+                                        "${package_dir}/${hypre_name}" \
+                                        ".tar.gz"
+source "${script_path}/download.sh"     "${mpich_url}/${mpich_name}" \
+                                        "${package_dir}/${mpich_name}" \
+                                        ".tar.gz"
+source "${script_path}/download.sh"     "${openmpi_url}/${openmpi_name}" \
+                                        "${package_dir}/${openmpi_name}" \
+                                        ".tar.gz"
+source "${script_path}/unzip.sh"        "${package_dir}/${software_version}" \
+                                        "${tmp_dir}" \
+                                        ".tar.gz"
+install                                 "${package_dir}" \
+                                        "${tmp_dir}/${software_version}"
