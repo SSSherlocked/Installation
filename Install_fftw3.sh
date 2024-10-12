@@ -16,6 +16,11 @@ function insert_compile_flag() {
 }
 
 
+install_flag1=""
+install_flag2="-D ENABLE_FLOAT=ON"
+install_flag3="-D ENABLE_LONG_DOUBLE=ON"
+
+
 source "${script_path}/setting.sh"          "${software}" \
                                             "${software_version}"
 source "${script_path}/download.sh"         "${software_download_url}/${software_version}" \
@@ -27,13 +32,13 @@ source "${script_path}/unzip.sh"            "${package_dir}/${software_version}"
 insert_compile_flag                         "${tmp_dir}/${software_version}"
 source "${script_path}/cmake_install.sh"    "${tmp_dir}/${software_version}" \
                                             "${install_dir}" \
-                                            ""
+                                            "${install_flag1}"
 source "${script_path}/cmake_install.sh"    "${tmp_dir}/${software_version}" \
                                             "${install_dir}" \
-                                            "-D ENABLE_FLOAT=ON"
+                                            "${install_flag2}"
 source "${script_path}/cmake_install.sh"    "${tmp_dir}/${software_version}" \
                                             "${install_dir}" \
-                                            "-D ENABLE_LONG_DOUBLE=ON"
+                                            "${install_flag3}"
 
 
 #source ${script_path}/install.sh            ${tmp_dir}/${software_version} \
