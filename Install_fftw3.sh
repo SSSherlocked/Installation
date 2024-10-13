@@ -21,34 +21,21 @@ install_flag2="-D ENABLE_FLOAT=ON"
 install_flag3="-D ENABLE_LONG_DOUBLE=ON"
 
 
-source "${script_path}/setting.sh"          "${software}" \
+source "${script_path}/DirSetting.sh"       "${software}" \
                                             "${software_version}"
-source "${script_path}/download.sh"         "${software_download_url}/${software_version}" \
+source "${script_path}/Download.sh"         "${software_download_url}/${software_version}" \
                                             "${package_dir}/${software_version}" \
                                             ".tar.gz"
-source "${script_path}/unzip.sh"            "${package_dir}/${software_version}" \
+source "${script_path}/Unzip.sh"            "${package_dir}/${software_version}" \
                                             "${tmp_dir}" \
                                             ".tar.gz"
 insert_compile_flag                         "${tmp_dir}/${software_version}"
-source "${script_path}/cmake_install.sh"    "${tmp_dir}/${software_version}" \
+source "${script_path}/CMakeInstall.sh"     "${tmp_dir}/${software_version}" \
                                             "${install_dir}" \
                                             "${install_flag1}"
-source "${script_path}/cmake_install.sh"    "${tmp_dir}/${software_version}" \
+source "${script_path}/CMakeInstall.sh"     "${tmp_dir}/${software_version}" \
                                             "${install_dir}" \
                                             "${install_flag2}"
-source "${script_path}/cmake_install.sh"    "${tmp_dir}/${software_version}" \
+source "${script_path}/CMakeInstall.sh"     "${tmp_dir}/${software_version}" \
                                             "${install_dir}" \
                                             "${install_flag3}"
-
-
-#source ${script_path}/install.sh            ${tmp_dir}/${software_version} \
-#                                            ${install_dir} \
-#                                            "--enable-mpi"
-#source ${script_path}/install.sh            ${tmp_dir}/${software_version} \
-#                                            ${install_dir} \
-#                                            "--enable-float \
-#                                            --enable-mpi"
-#source ${script_path}/install.sh            ${tmp_dir}/${software_version} \
-#                                            ${install_dir} \
-#                                            "--enable-long-double \
-#                                            --enable-mpi"

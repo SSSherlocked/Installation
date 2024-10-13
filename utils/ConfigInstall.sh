@@ -10,7 +10,7 @@ function check() {
 # Use all CPU cores to compile
 function makeit() {
     local target="$1"
-    source make.sh "$target"
+    source MakeParallel.sh "$target"
 }
 
 # Auto download required packages

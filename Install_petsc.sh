@@ -123,25 +123,25 @@ function install() {
 }
 
 
-source "${script_path}/setting.sh"      "${software}" \
+source "${script_path}/DirSetting.sh"   "${software}" \
                                         "${software_version}"
 set_compiler                            "${package_dir}"
-source "${script_path}/download.sh"     "${software_download_url}/${software_version}" \
+source "${script_path}/Download.sh"     "${software_download_url}/${software_version}" \
                                         "${package_dir}/${software_version}" \
                                         ".tar.gz"
-source "${script_path}/download.sh"     "${fblaslapack_url}" \
+source "${script_path}/Download.sh"     "${fblaslapack_url}" \
                                         "${package_dir}/${fblaslapack_name}" \
                                         ".tar.gz"
-source "${script_path}/download.sh"     "${hypre_url}/${hypre_name}" \
+source "${script_path}/Download.sh"     "${hypre_url}/${hypre_name}" \
                                         "${package_dir}/${hypre_name}" \
                                         ".tar.gz"
-source "${script_path}/download.sh"     "${mpich_url}/${mpich_name}" \
+source "${script_path}/Download.sh"     "${mpich_url}/${mpich_name}" \
                                         "${package_dir}/${mpich_name}" \
                                         ".tar.gz"
-source "${script_path}/download.sh"     "${openmpi_url}/${openmpi_name}" \
+source "${script_path}/Download.sh"     "${openmpi_url}/${openmpi_name}" \
                                         "${package_dir}/${openmpi_name}" \
                                         ".tar.gz"
-source "${script_path}/unzip.sh"        "${package_dir}/${software_version}" \
+source "${script_path}/Unzip.sh"        "${package_dir}/${software_version}" \
                                         "${tmp_dir}" \
                                         ".tar.gz"
 install                                 "${package_dir}" \
