@@ -1,29 +1,32 @@
 #！/bin/bash
 export script_path="$(cd $(dirname $0);pwd)/utils"
 
+## PETSc Official Download Server
+PETSc_PackageDownload_URL="https://web.cels.anl.gov/projects/petsc/download"
+
 
 ## If you want to update PETSc version,
 ## please check the version of the dependency packages to make sure they are compatible.
 software="petsc"
-software_download_url="https://web.cels.anl.gov/projects/petsc/download/release-snapshots"
+software_download_url="${PETSc_PackageDownload_URL}/release-snapshots"
 software_version="petsc-3.21.4"
 
 
 ## MPICH
 mpich_flag=1
-mpich_url="https://www.mpich.org/static/downloads/4.2.2"
+mpich_url="${PETSc_PackageDownload_URL}/externalpackages"
 mpich_name="mpich-4.2.2"
 mpi_dependency=""
-## Additional download url for MPICH (PETSc official website)
-## https://web.cels.anl.gov/projects/petsc/download/externalpackages/mpich-4.2.2.tar.gz
+## Additional download url for MPICH (MPICH official website)
+## https://www.mpich.org/static/downloads/4.2.2/mpich-4.2.2.tar.gz
 
 ## OpenMPI
 ## >> Not used at the moment <<
 openmpi_flag=0
-openmpi_url="https://download.open-mpi.org/release/open-mpi/v5.0"
+openmpi_url="${PETSc_PackageDownload_URL}/externalpackages"
 openmpi_name="openmpi-5.0.5"
-## Additional download url for OpenMPI (PETSc official website)
-## https://web.cels.anl.gov/projects/petsc/download/externalpackages/openmpi-5.0.5.tar.gz
+## Additional download url for OpenMPI (OpenMPI official website)
+## https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.5.tar.gz
 
 
 ## BlasLapack
@@ -39,7 +42,7 @@ fblaslapack_dependency=""
 ## f2cBlasLapack
 ## >> Not used at the moment <<
 f2cblaslapack_flag=0
-f2cblaslapack_url="https://web.cels.anl.gov/projects/petsc/download/externalpackages"
+f2cblaslapack_url="${PETSc_PackageDownload_URL}/externalpackages"
 f2cblaslapack_name="f2cblaslapack-3.8.0.q2"
 f2cblaslapack_dependency=""
 
@@ -63,8 +66,8 @@ scalapack_dependency=""
 
 
 ## MUMPS
-mumps_flag=0
-mumps_url="https://web.cels.anl.gov/projects/petsc/download/externalpackages/"
+mumps_flag=1
+mumps_url="${PETSc_PackageDownload_URL}/externalpackages"
 mumps_name="MUMPS_5.7.3"
 mumps_dependency=""
 ## Additional download url for MUMPS (Github)
