@@ -56,6 +56,15 @@ hypre_dependency=""
 ## https://web.cels.anl.gov/projects/petsc/download/externalpackages/hypre-2.10.0b-p4.tar.gz (PETSc official website)
 
 
+## HDF5
+hdf5_flag=0
+hdf5_url="${PETSc_PackageDownload_URL}/externalpackages"
+hdf5_name="hdf5-1.14.3-p1"
+hdf5_dependency=""
+## Additional download url for HDF5
+## https://hdf-wordpress-1.s3.amazonaws.com/wp-content/uploads/manual/HDF5/HDF5_1_14_3/src/hdf5-1.14.3.tar.gz (HDF5 official website)
+
+
 ## ScaLapack (required by MUMPS)
 scalapack_flag=1
 scalapack_url="https://github.com/Reference-ScaLAPACK/scalapack/archive/refs/tags/v2.2.0"
@@ -164,6 +173,10 @@ function check_dependency() {
         hypre_dependency="--download-hypre=${pack_dir}/${hypre_name}.tar.gz"
     fi
 
+    if [ ${hypre_flag} -ne 0 ]; then
+        hdf5_dependency="--download-hdf5=${pack_dir}/${hdf5_name}.tar.bz2"
+    fi
+
     if [ ${scalapack_flag} -ne 0 ]; then
         scalapack_dependency="--download-scalapack=${pack_dir}/${scalapack_name}.tar.gz"
     fi
@@ -205,6 +218,7 @@ function install() {
                 --with-fc=${f_compiler}     \
                 "${fblaslapack_dependency}" \
                 "${hypre_dependency}"       \
+                "${hdf5_dependency}"        \
                 "${scalapack_dependency}"   \
                 "${mumps_dependency}"       \
                 "${metis_dependency}"       \
@@ -252,6 +266,11 @@ source "${script_path}/Download.sh"     "${f2cblaslapack_url}/${f2cblaslapack_na
                                         "${package_dir}/${f2cblaslapack_name}" \
                                         ".tar.gz" \
                                         "${f2cblaslapack_flag}"
+## download hdf5
+source "${script_path}/Download.sh"     "${hdf5_url}/${hdf5_name}" \
+                                        "${package_dir}/${hdf5_name}" \
+                                        ".tar.bz2" \
+                                        "${hdf5_flag}"
 ## download hypre
 source "${script_path}/Download.sh"     "${hypre_url}" \
                                         "${package_dir}/${hypre_name}" \
