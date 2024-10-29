@@ -74,6 +74,20 @@ mumps_dependency=""
 ## https://github.com/scivision/mumps/archive/refs/tags/v5.7.3.1.tar.gz
 
 
+## METIS
+metis_flag=1
+metis_url="${PETSc_PackageDownload_URL}/externalpackages"
+metis_name="metis-5.1.0-p3"
+metis_dependency=""
+
+
+## ParMETIS
+parmetis_flag=1
+parmetis_url="${PETSc_PackageDownload_URL}/externalpackages"
+parmetis_name="parmetis-4.0.3-p3"
+parmetis_dependency=""
+
+
 function check() {
     if [ $? -ne 0 ]; then
         echo ">> Installation failed."
@@ -151,6 +165,14 @@ function check_dependency() {
     if [ ${mumps_flag} -ne 0 ]; then
         mumps_dependency="--download-mumps=${pack_dir}/${mumps_name}.tar.gz"
     fi
+
+    if [ ${metis_flag} -ne 0 ]; then
+        metis_dependency="--download-metis=${pack_dir}/${metis_name}.tar.gz"
+    fi
+
+    if [ ${parmetis_flag} -ne 0 ]; then
+        parmetis_dependency="--download-parmetis=${pack_dir}/${parmetis_name}.tar.gz"
+    fi
 }
 
 ## Install
@@ -176,6 +198,8 @@ function install() {
                 "${hypre_dependency}"       \
                 "${scalapack_dependency}"   \
                 "${mumps_dependency}"       \
+                "${metis_dependency}"       \
+                "${parmetis_dependency}"    \
                 "${mpi_dependency}"
 
     check
@@ -224,16 +248,26 @@ source "${script_path}/Download.sh"     "${hypre_url}" \
                                         "${package_dir}/${hypre_name}" \
                                         ".tar.gz" \
                                         "${hypre_flag}"
-## download mumps
-source "${script_path}/Download.sh"     "${mumps_url}/${mumps_name}" \
-                                        "${package_dir}/${mumps_name}" \
-                                        ".tar.gz" \
-                                        "${mumps_flag}"
 ## download scalapack
 source "${script_path}/Download.sh"     "${scalapack_url}" \
                                         "${package_dir}/${scalapack_name}" \
                                         ".tar.gz" \
                                         "${scalapack_flag}"
+## download mumps
+source "${script_path}/Download.sh"     "${mumps_url}/${mumps_name}" \
+                                        "${package_dir}/${mumps_name}" \
+                                        ".tar.gz" \
+                                        "${mumps_flag}"
+## download metis
+source "${script_path}/Download.sh"     "${metis_url}/${metis_name}" \
+                                        "${package_dir}/${metis_name}" \
+                                        ".tar.gz" \
+                                        "${metis_flag}"
+## download parmetis
+source "${script_path}/Download.sh"     "${parmetis_url}/${parmetis_name}" \
+                                        "${package_dir}/${parmetis_name}" \
+                                        ".tar.gz" \
+                                        "${parmetis_flag}"
 
 check_dependency                        "${package_dir}"
 source "${script_path}/Unzip.sh"        "${package_dir}/${software_version}" \
