@@ -17,16 +17,16 @@ mpich_flag=1
 mpich_url="${PETSc_PackageDownload_URL}/externalpackages"
 mpich_name="mpich-4.2.2"
 mpi_dependency=""
-## Additional download url for MPICH (MPICH official website)
-## https://www.mpich.org/static/downloads/4.2.2/mpich-4.2.2.tar.gz
+## Additional download url for MPICH
+## https://www.mpich.org/static/downloads/4.2.2/mpich-4.2.2.tar.gz (MPICH official website)
 
 ## OpenMPI
 ## >> Not used at the moment <<
 openmpi_flag=0
 openmpi_url="${PETSc_PackageDownload_URL}/externalpackages"
 openmpi_name="openmpi-5.0.5"
-## Additional download url for OpenMPI (OpenMPI official website)
-## https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.5.tar.gz
+## Additional download url for OpenMPI
+## https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.5.tar.gz (OpenMPI official website)
 
 
 ## BlasLapack
@@ -52,8 +52,8 @@ hypre_flag=1
 hypre_url="https://github.com/hypre-space/hypre/archive/refs/tags/v2.31.0"
 hypre_name="hypre-2.31.0"
 hypre_dependency=""
-## Additional download url for hypre (PETSc official website)
-## https://web.cels.anl.gov/projects/petsc/download/externalpackages/hypre-2.10.0b-p4.tar.gz
+## Additional download url for hypre
+## https://web.cels.anl.gov/projects/petsc/download/externalpackages/hypre-2.10.0b-p4.tar.gz (PETSc official website)
 
 
 ## ScaLapack (required by MUMPS)
@@ -61,8 +61,8 @@ scalapack_flag=1
 scalapack_url="https://github.com/Reference-ScaLAPACK/scalapack/archive/refs/tags/v2.2.0"
 scalapack_name="scalapack-2.2.0"
 scalapack_dependency=""
-## Additional download url for ScaLapack (PETSc official website)
-## https://web.cels.anl.gov/projects/petsc/download/externalpackages/scalapack-2.0.2.tgz
+## Additional download url for ScaLapack
+## https://web.cels.anl.gov/projects/petsc/download/externalpackages/scalapack-2.0.2.tgz (PETSc official website)
 
 
 ## MUMPS
@@ -70,26 +70,32 @@ mumps_flag=1
 mumps_url="${PETSc_PackageDownload_URL}/externalpackages"
 mumps_name="MUMPS_5.7.3"
 mumps_dependency=""
-## Additional download url for MUMPS (Github)
-## https://github.com/scivision/mumps/archive/refs/tags/v5.7.3.1.tar.gz
+## Additional download url for MUMPS
+## https://github.com/scivision/mumps/archive/refs/tags/v5.7.3.1.tar.gz (Github)
 
 
 ## MeTis (required by ParMeTis)
 ## >> This package cannot be installed offline <<
 ## >> The --download-metis argument is required <<
 metis_flag=1
-#metis_url="${PETSc_PackageDownload_URL}/externalpackages"
-#metis_name="metis-5.1.0-p3"
+metis_url="${PETSc_PackageDownload_URL}/externalpackages"
+metis_name="metis-5.1.0-p3"
 metis_dependency=""
+## Additional download url for MeTis
+## https://bitbucket.org/petsc/pkg-metis.git (PETSc auto-download website)
+## https://github.com/KarypisLab/METIS.git (Github)
 
 
 ## ParMeTis
 ## >> This package cannot be installed offline <<
 ## >> The --download-parmetis argument is required <<
 parmetis_flag=1
-#parmetis_url="${PETSc_PackageDownload_URL}/externalpackages"
-#parmetis_name="parmetis-4.0.3-p3"
+parmetis_url="${PETSc_PackageDownload_URL}/externalpackages"
+parmetis_name="parmetis-4.0.3-p3"
 parmetis_dependency=""
+## Additional download url for ParMeTis
+## https://bitbucket.org/petsc/pkg-parmetis.git (PETSc auto-download website)
+## https://github.com/KarypisLab/ParMETIS.git (Github)
 
 
 function check() {
