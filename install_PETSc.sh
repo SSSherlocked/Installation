@@ -78,10 +78,11 @@ mumps_dependency=""
 ## >> This package cannot be installed offline <<
 ## >> The --download-metis argument is required <<
 metis_flag=1
-metis_url="${PETSc_PackageDownload_URL}/externalpackages"
-metis_name="metis-5.1.0-p3"
+metis_url="https://bitbucket.org/petsc"
+metis_name="pkg-metis"
 metis_dependency=""
 ## Additional download url for MeTis
+## https://web.cels.anl.gov/projects/petsc/download/externalpackages/metis-5.1.0-p3.tar.gz (PETSc official website)
 ## https://bitbucket.org/petsc/pkg-metis.git (PETSc auto-download website)
 ## https://github.com/KarypisLab/METIS.git (Github)
 
@@ -90,10 +91,11 @@ metis_dependency=""
 ## >> This package cannot be installed offline <<
 ## >> The --download-parmetis argument is required <<
 parmetis_flag=1
-parmetis_url="${PETSc_PackageDownload_URL}/externalpackages"
-parmetis_name="parmetis-4.0.3-p3"
+parmetis_url="https://bitbucket.org/petsc"
+parmetis_name="pkg-parmetis"
 parmetis_dependency=""
 ## Additional download url for ParMeTis
+## https://web.cels.anl.gov/projects/petsc/download/externalpackages/parmetis-4.0.3-p3.tar.gz (PETSc official website)
 ## https://bitbucket.org/petsc/pkg-parmetis.git (PETSc auto-download website)
 ## https://github.com/KarypisLab/ParMETIS.git (Github)
 
@@ -103,12 +105,6 @@ function check() {
         echo ">> Installation failed."
         exit
     fi
-}
-
-## Use all CPU cores to compile
-function makeit() {
-    local target="$1"
-    source "${script_path}/MakeParallel.sh" "$target"
 }
 
 ## check compiler existence
@@ -178,11 +174,13 @@ function check_dependency() {
 
     if [ ${metis_flag} -ne 0 ]; then
 #        metis_dependency="--download-metis=${pack_dir}/${metis_name}.tar.gz"
+#        metis_dependency="--with-packages-build-dir=${pack_dir}/${metis_name}"
         metis_dependency="--download-metis"
     fi
 
     if [ ${parmetis_flag} -ne 0 ]; then
 #        parmetis_dependency="--download-parmetis=${pack_dir}/${parmetis_name}.tar.gz"
+#        metis_dependency="--with-packages-build-dir=${pack_dir}/${metis_name}"
         parmetis_dependency="--download-parmetis"
     fi
 }
@@ -191,8 +189,7 @@ function check_dependency() {
 function install() {
     local pack_dir="$1"
     local unzip_dir="$2"
-    cd "${unzip_dir}" || exit
-    check
+    cd "${unzip_dir}" || ! echo -e "Fail to enter ${unzip_dir}!" || exit
     echo ">> Configuring ..."
 
     ## avoid potential errors related to environment variable settings
@@ -216,13 +213,13 @@ function install() {
 
     check
     echo ">> Compiling ..."
-    makeit "PETSC_DIR=${unzip_dir}     PETSC_ARCH=${arch}   all"
+    make    PETSC_DIR=${unzip_dir}     PETSC_ARCH=${arch}   all
     check
     echo ">> Installing ..."
-    makeit "PETSC_DIR=${unzip_dir}     PETSC_ARCH=${arch}   install"
+    make    PETSC_DIR=${unzip_dir}     PETSC_ARCH=${arch}   install
     check
     echo ">> Testing ..."
-    makeit "PETSC_DIR=${install_dir}   PETSC_ARCH=""        check"
+    make    PETSC_DIR=${install_dir}   PETSC_ARCH=""        check
     check
 }
 
@@ -270,16 +267,14 @@ source "${script_path}/Download.sh"     "${mumps_url}/${mumps_name}" \
                                         "${package_dir}/${mumps_name}" \
                                         ".tar.gz" \
                                         "${mumps_flag}"
-### download metis
-#source "${script_path}/Download.sh"     "${metis_url}/${metis_name}" \
-#                                        "${package_dir}/${metis_name}" \
-#                                        ".tar.gz" \
-#                                        "${metis_flag}"
-### download parmetis
-#source "${script_path}/Download.sh"     "${parmetis_url}/${parmetis_name}" \
-#                                        "${package_dir}/${parmetis_name}" \
-#                                        ".tar.gz" \
-#                                        "${parmetis_flag}"
+## download metis
+source "${script_path}/GitClone.sh"     "${metis_url}/${metis_name}" \
+                                        "${package_dir}/${metis_name}" \
+                                        0 #"${metis_flag}"
+## download parmetis
+source "${script_path}/GitClone.sh"     "${parmetis_url}/${parmetis_name}" \
+                                        "${package_dir}/${parmetis_name}" \
+                                        0 #"${parmetis_flag}"
 
 check_dependency                        "${package_dir}"
 source "${script_path}/Unzip.sh"        "${package_dir}/${software_version}" \
