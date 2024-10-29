@@ -9,7 +9,7 @@ PETSc_PackageDownload_URL="https://web.cels.anl.gov/projects/petsc/download"
 ## please check the version of the dependency packages to make sure they are compatible.
 software="petsc"
 software_download_url="${PETSc_PackageDownload_URL}/release-snapshots"
-software_version="petsc-3.21.4"
+software_version="petsc-3.22.1"
 
 
 ## MPICH
@@ -74,17 +74,21 @@ mumps_dependency=""
 ## https://github.com/scivision/mumps/archive/refs/tags/v5.7.3.1.tar.gz
 
 
-## METIS
+## MeTis (required by ParMeTis)
+## >> This package cannot be installed offline <<
+## >> The --download-metis argument is required <<
 metis_flag=1
-metis_url="${PETSc_PackageDownload_URL}/externalpackages"
-metis_name="metis-5.1.0-p3"
+#metis_url="${PETSc_PackageDownload_URL}/externalpackages"
+#metis_name="metis-5.1.0-p3"
 metis_dependency=""
 
 
-## ParMETIS
+## ParMeTis
+## >> This package cannot be installed offline <<
+## >> The --download-parmetis argument is required <<
 parmetis_flag=1
-parmetis_url="${PETSc_PackageDownload_URL}/externalpackages"
-parmetis_name="parmetis-4.0.3-p3"
+#parmetis_url="${PETSc_PackageDownload_URL}/externalpackages"
+#parmetis_name="parmetis-4.0.3-p3"
 parmetis_dependency=""
 
 
@@ -98,7 +102,7 @@ function check() {
 ## Use all CPU cores to compile
 function makeit() {
     local target="$1"
-    source "${script_path}/make.sh" "$target"
+    source "${script_path}/MakeParallel.sh" "$target"
 }
 
 ## check compiler existence
@@ -167,11 +171,13 @@ function check_dependency() {
     fi
 
     if [ ${metis_flag} -ne 0 ]; then
-        metis_dependency="--download-metis=${pack_dir}/${metis_name}.tar.gz"
+#        metis_dependency="--download-metis=${pack_dir}/${metis_name}.tar.gz"
+        metis_dependency="--download-metis"
     fi
 
     if [ ${parmetis_flag} -ne 0 ]; then
-        parmetis_dependency="--download-parmetis=${pack_dir}/${parmetis_name}.tar.gz"
+#        parmetis_dependency="--download-parmetis=${pack_dir}/${parmetis_name}.tar.gz"
+        parmetis_dependency="--download-parmetis"
     fi
 }
 
@@ -258,16 +264,16 @@ source "${script_path}/Download.sh"     "${mumps_url}/${mumps_name}" \
                                         "${package_dir}/${mumps_name}" \
                                         ".tar.gz" \
                                         "${mumps_flag}"
-## download metis
-source "${script_path}/Download.sh"     "${metis_url}/${metis_name}" \
-                                        "${package_dir}/${metis_name}" \
-                                        ".tar.gz" \
-                                        "${metis_flag}"
-## download parmetis
-source "${script_path}/Download.sh"     "${parmetis_url}/${parmetis_name}" \
-                                        "${package_dir}/${parmetis_name}" \
-                                        ".tar.gz" \
-                                        "${parmetis_flag}"
+### download metis
+#source "${script_path}/Download.sh"     "${metis_url}/${metis_name}" \
+#                                        "${package_dir}/${metis_name}" \
+#                                        ".tar.gz" \
+#                                        "${metis_flag}"
+### download parmetis
+#source "${script_path}/Download.sh"     "${parmetis_url}/${parmetis_name}" \
+#                                        "${package_dir}/${parmetis_name}" \
+#                                        ".tar.gz" \
+#                                        "${parmetis_flag}"
 
 check_dependency                        "${package_dir}"
 source "${script_path}/Unzip.sh"        "${package_dir}/${software_version}" \
