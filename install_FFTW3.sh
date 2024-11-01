@@ -16,9 +16,9 @@ function insert_compile_flag() {
 }
 
 
-install_flag1=""
-install_flag2="-D ENABLE_FLOAT=ON"
-install_flag3="-D ENABLE_LONG_DOUBLE=ON"
+install_flag1="-D ENABLE_FLOAT=OFF  -D ENABLE_LONG_DOUBLE=OFF"
+install_flag2="-D ENABLE_FLOAT=ON   -D ENABLE_LONG_DOUBLE=OFF"
+install_flag3="-D ENABLE_FLOAT=OFF  -D ENABLE_LONG_DOUBLE=ON"
 
 
 source "${script_path}/DirSetting.sh"       "${software}" \
