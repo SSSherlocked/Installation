@@ -173,7 +173,7 @@ function check_dependency() {
         hypre_dependency="--download-hypre=${pack_dir}/${hypre_name}.tar.gz"
     fi
 
-    if [ ${hypre_flag} -ne 0 ]; then
+    if [ ${hdf5_flag} -ne 0 ]; then
         hdf5_dependency="--download-hdf5=${pack_dir}/${hdf5_name}.tar.bz2"
     fi
 
@@ -266,16 +266,16 @@ source "${script_path}/Download.sh"     "${f2cblaslapack_url}/${f2cblaslapack_na
                                         "${package_dir}/${f2cblaslapack_name}" \
                                         ".tar.gz" \
                                         "${f2cblaslapack_flag}"
-## download hdf5
-source "${script_path}/Download.sh"     "${hdf5_url}/${hdf5_name}" \
-                                        "${package_dir}/${hdf5_name}" \
-                                        ".tar.bz2" \
-                                        "${hdf5_flag}"
 ## download hypre
 source "${script_path}/Download.sh"     "${hypre_url}" \
                                         "${package_dir}/${hypre_name}" \
                                         ".tar.gz" \
                                         "${hypre_flag}"
+## download hdf5
+source "${script_path}/Download.sh"     "${hdf5_url}/${hdf5_name}" \
+                                        "${package_dir}/${hdf5_name}" \
+                                        ".tar.bz2" \
+                                        "${hdf5_flag}"
 ## download scalapack
 source "${script_path}/Download.sh"     "${scalapack_url}" \
                                         "${package_dir}/${scalapack_name}" \
