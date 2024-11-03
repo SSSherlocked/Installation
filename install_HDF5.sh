@@ -7,13 +7,13 @@ software_download_url="https://hdf-wordpress-1.s3.amazonaws.com/wp-content/uploa
 software_version="hdf5-1.14.3"
 
 
-source "${script_path}/DirSetting.sh"      "${software}" \
-                                        "${software_version}"
-source "${script_path}/Download.sh"     "${software_download_url}/${software_version}" \
-                                        "${package_dir}/${software_version}" \
-                                        ".tar.gz"
-source "${script_path}/Unzip.sh"        "${package_dir}/${software_version}" \
-                                        "${tmp_dir}" \
-                                        ".tar.gz"
-source "${script_path}/ConfigInstall.sh"      "${tmp_dir}/${software_version}" \
-                                        "${install_dir}"
+source "${script_path}/DirSetting.sh"       "${software}" \
+                                            "${software_version}"
+source "${script_path}/Download.sh"         "${software_download_url}/${software_version}" \
+                                            "${package_dir}/${software_version}" \
+                                            ".tar.gz"
+source "${script_path}/Unzip.sh"            "${package_dir}/${software_version}" \
+                                            "${tmp_dir}" \
+                                            ".tar.gz"
+source "${script_path}/ConfigInstall.sh"    "${tmp_dir}/${software_version}" \
+                                            "${install_dir}"
