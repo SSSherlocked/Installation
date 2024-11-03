@@ -15,10 +15,33 @@ function insert_compile_flag() {
     sed -i "312 i set_target_properties(${fftw3_lib} PROPERTIES POSITION_INDEPENDENT_CODE ON)" ${target}
 }
 
+## Optional flags
+## BUILD_SHARED_LIBS                ON/OFF
+## BUILD_TESTS                      ON/OFF
+## CMAKE_BUILD_TYPE                 Debug/Release
+## CMAKE_INSTALL_PREFIX             /prefix/path
+## DISABLE_FORTRAN                  ON/OFF
+## ENABLE_AVX                       ON/OFF
+## ENABLE_AVX2                      ON/OFF
+## ENABLE_FLOAT                     ON/OFF
+## ENABLE_LONG_DOUBLE               ON/OFF
+## ENABLE_OPENMP                    ON/OFF
+## ENABLE_QUAD_PRECISION            ON/OFF
+## ENABLE_SSE                       ON/OFF
+## ENABLE_SSE2                      ON/OFF
+## ENABLE_THREADS                   ON/OFF
+## LIBM_LIBRARY                     /libm/path
+## WITH_COMBINED_THREADS            ON/OFF
 
-install_flag1="-D ENABLE_FLOAT=OFF  -D ENABLE_LONG_DOUBLE=OFF"
-install_flag2="-D ENABLE_FLOAT=ON   -D ENABLE_LONG_DOUBLE=OFF"
-install_flag3="-D ENABLE_FLOAT=OFF  -D ENABLE_LONG_DOUBLE=ON"
+## Install static libraries
+install_flag1="-D BUILD_SHARED_LIBS=OFF -D ENABLE_FLOAT=OFF  -D ENABLE_LONG_DOUBLE=OFF"
+install_flag2="-D BUILD_SHARED_LIBS=OFF -D ENABLE_FLOAT=ON   -D ENABLE_LONG_DOUBLE=OFF"
+install_flag3="-D BUILD_SHARED_LIBS=OFF -D ENABLE_FLOAT=OFF  -D ENABLE_LONG_DOUBLE=ON"
+
+## Install shared libraries
+install_flag11="-D BUILD_SHARED_LIBS=ON -D ENABLE_FLOAT=OFF  -D ENABLE_LONG_DOUBLE=OFF"
+install_flag22="-D BUILD_SHARED_LIBS=ON -D ENABLE_FLOAT=ON   -D ENABLE_LONG_DOUBLE=OFF"
+install_flag33="-D BUILD_SHARED_LIBS=ON -D ENABLE_FLOAT=OFF  -D ENABLE_LONG_DOUBLE=ON"
 
 
 source "${script_path}/DirSetting.sh"       "${software}" \
@@ -30,6 +53,7 @@ source "${script_path}/Unzip.sh"            "${package_dir}/${software_version}"
                                             "${tmp_dir}" \
                                             ".tar.gz"
 insert_compile_flag                         "${tmp_dir}/${software_version}"
+## Install static libraries
 source "${script_path}/CMakeInstall.sh"     "${tmp_dir}/${software_version}" \
                                             "${install_dir}" \
                                             "${install_flag1}"
@@ -39,6 +63,16 @@ source "${script_path}/CMakeInstall.sh"     "${tmp_dir}/${software_version}" \
 source "${script_path}/CMakeInstall.sh"     "${tmp_dir}/${software_version}" \
                                             "${install_dir}" \
                                             "${install_flag3}"
+## Install shared libraries
+source "${script_path}/CMakeInstall.sh"     "${tmp_dir}/${software_version}" \
+                                            "${install_dir}" \
+                                            "${install_flag11}"
+source "${script_path}/CMakeInstall.sh"     "${tmp_dir}/${software_version}" \
+                                            "${install_dir}" \
+                                            "${install_flag22}"
+source "${script_path}/CMakeInstall.sh"     "${tmp_dir}/${software_version}" \
+                                            "${install_dir}" \
+                                            "${install_flag33}"
 
 
 #install_flag1=""

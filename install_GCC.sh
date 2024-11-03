@@ -1,7 +1,7 @@
 #！/bin/bash
 export script_path="$(cd $(dirname $0);pwd)/utils"
 
-
+## This scripts have not been tested yet.
 software="gcc"
 software_download_url="https://ftp.gnu.org/gnu/gcc/gcc-14.2.0"
 software_version="gcc-14.2.0"
