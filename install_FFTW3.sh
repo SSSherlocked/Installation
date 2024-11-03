@@ -39,3 +39,29 @@ source "${script_path}/CMakeInstall.sh"     "${tmp_dir}/${software_version}" \
 source "${script_path}/CMakeInstall.sh"     "${tmp_dir}/${software_version}" \
                                             "${install_dir}" \
                                             "${install_flag3}"
+
+
+#install_flag1=""
+#install_flag2="--enable-float"
+#install_flag3="--enable-long-double"
+#
+#
+#source "${script_path}/DirSetting.sh"       "${software}" \
+#                                            "${software_version}"
+#source "${script_path}/Download.sh"         "${software_download_url}/${software_version}" \
+#                                            "${package_dir}/${software_version}" \
+#                                            ".tar.gz"
+#source "${script_path}/Unzip.sh"            "${package_dir}/${software_version}" \
+#                                            "${tmp_dir}" \
+#                                            ".tar.gz"
+#source "${script_path}/ConfigInstall.sh"    "${tmp_dir}/${software_version}" \
+#                                            "${install_dir}" \
+#                                            "${install_flag1}"
+#source "${script_path}/ConfigInstall.sh"    "${tmp_dir}/${software_version}" \
+#                                            "${install_dir}" \
+#                                            "${install_flag2}"
+#source "${script_path}/ConfigInstall.sh"    "${tmp_dir}/${software_version}" \
+#                                            "${install_dir}" \
+#                                            "${install_flag3}"
+#source "${script_path}/SetEnvVar.sh"        "${install_dir}" \
+#                                            "${software}"
