@@ -23,7 +23,6 @@ function install() {
     ## The ${install_flag} is optional, and need to be expanded by using the 'eval' command.
     echo ">> Configuring ..."
     eval ./configure --prefix="${install_dir}" "${install_flag}"
-    exit
     check
 
     echo ">> Compiling ..."
