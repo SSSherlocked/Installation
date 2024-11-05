@@ -7,9 +7,10 @@ PETSc_PackageDownload_URL="https://web.cels.anl.gov/projects/petsc/download"
 
 ## If you want to update PETSc version,
 ## please check the version of the dependency packages to make sure they are compatible.
+## EDIPIC_2D are NOT compatible with PETSc 3.22.1 or later.
 software="petsc"
 software_download_url="${PETSc_PackageDownload_URL}/release-snapshots"
-software_version="petsc-3.22.1"
+software_version="petsc-3.21.4"
 
 
 ## MPICH
@@ -57,7 +58,7 @@ hypre_dependency=""
 
 
 ## HDF5
-hdf5_flag=0
+hdf5_flag=1
 hdf5_url="${PETSc_PackageDownload_URL}/externalpackages"
 hdf5_name="hdf5-1.14.3-p1"
 hdf5_dependency=""
