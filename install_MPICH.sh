@@ -13,7 +13,7 @@ install_flag="FFLAGS=-fallow-argument-mismatch \
 
 source "${script_path}/DirSetting.sh"       "${software}" \
                                             "${software_version}"
-source "${script_path}/check_comp.sh"       "gcc" "g++" "gfortran"
+source "${script_path}/CheckCompiler.sh"    "gcc" "g++" "gfortran"
 source "${script_path}/Download.sh"         "${software_download_url}/${software_version}" \
                                             "${package_dir}/${software_version}" \
                                             ".tar.gz"
