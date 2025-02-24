@@ -9,6 +9,7 @@ software_version="cmake-3.26.6"
 
 source "${script_path}/DirSetting.sh"       "${software}" \
                                             "${software_version}"
+source "${script_path}/CheckCompiler.sh"    "gcc" "g++" "openssl"
 source "${script_path}/Download.sh"         "${software_download_url}/${software_version}" \
                                             "${package_dir}/${software_version}" \
                                             ".tar.gz"
