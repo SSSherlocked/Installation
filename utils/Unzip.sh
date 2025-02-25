@@ -13,7 +13,7 @@ function unzip() {
     local unzip_dir="$2"
     local type="$3"
     mkdir -p "${unzip_dir}"
-    tar -zxvf "${pack_name}${type}" -C "${unzip_dir}"
+    tar -zxf "${pack_name}${type}" -C "${unzip_dir}" --skip-old-files
     check
 }
 
