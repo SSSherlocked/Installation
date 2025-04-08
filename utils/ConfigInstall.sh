@@ -10,7 +10,7 @@ function check() {
 # Use all CPU cores to compile
 function makeit() {
     local target="$1"
-    source MakeParallel.sh "$target"
+    source "${script_path}/MakeParallel.sh" "$target"
 }
 
 # Auto download required packages
@@ -23,7 +23,6 @@ function install() {
     ## The ${install_flag} is optional, and need to be expanded by using the 'eval' command.
     echo ">> Configuring ..."
     eval ./configure --prefix="${install_dir}" "${install_flag}"
-    exit
     check
 
     echo ">> Compiling ..."
