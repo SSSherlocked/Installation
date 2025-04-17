@@ -15,6 +15,7 @@ software_version="petsc-3.21.4"
 
 ## MPICH
 mpich_flag=1
+force_download_mpi_flag=1   # avoid intel oneAPI interruption
 mpich_url="${PETSc_PackageDownload_URL}/externalpackages"
 mpich_name="mpich-4.2.2"
 mpi_dependency=""
@@ -67,7 +68,7 @@ hdf5_dependency=""
 
 
 ## ScaLapack (required by MUMPS)
-scalapack_flag=1
+scalapack_flag=0
 scalapack_url="https://github.com/Reference-ScaLAPACK/scalapack/archive/refs/tags/v2.2.0"
 scalapack_name="scalapack-2.2.0"
 scalapack_dependency=""
@@ -76,7 +77,7 @@ scalapack_dependency=""
 
 
 ## MUMPS
-mumps_flag=1
+mumps_flag=0
 mumps_url="${PETSc_PackageDownload_URL}/externalpackages"
 mumps_name="MUMPS_5.7.3"
 mumps_dependency=""
@@ -87,7 +88,7 @@ mumps_dependency=""
 ## MeTis (required by ParMeTis)
 ## >> This package cannot be installed offline <<
 ## >> The --download-metis argument is required <<
-metis_flag=1
+metis_flag=0
 metis_url="https://bitbucket.org/petsc"
 metis_name="pkg-metis"
 metis_dependency=""
@@ -100,7 +101,7 @@ metis_dependency=""
 ## ParMeTis
 ## >> This package cannot be installed offline <<
 ## >> The --download-parmetis argument is required <<
-parmetis_flag=1
+parmetis_flag=0
 parmetis_url="https://bitbucket.org/petsc"
 parmetis_name="pkg-parmetis"
 parmetis_dependency=""
@@ -121,7 +122,12 @@ function check() {
 function set_compiler() {
     local pack_dir="$1"
 
-    local mpi_exist_flag=1
+    local mpi_exist_flag
+    if [[ ${force_download_mpi_flag} -eq 1 ]]; then
+        mpi_exist_flag=0
+    else
+        mpi_exist_flag=1
+    fi
     command -v mpicc    > /dev/null 2>&1 || { mpi_exist_flag=0; }
     command -v mpicxx   > /dev/null 2>&1 || { mpi_exist_flag=0; }
     command -v mpifort  > /dev/null 2>&1 || { mpi_exist_flag=0; }
